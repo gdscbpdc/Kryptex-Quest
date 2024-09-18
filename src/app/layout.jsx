@@ -4,7 +4,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
 import './globals.css';
 import theme from '@/lib/theme';
-import Header from '@/components/header';
+import Header from '@/components/Header';
 
 const open_sans = Open_Sans({
   subsets: ['latin'],
