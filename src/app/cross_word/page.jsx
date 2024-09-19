@@ -54,10 +54,8 @@ const Home = () => {
   };
 
   return (
-    <div className='flex flex-col items-center space-y-5 md:space-y-10'>
-      <h1 className='text-3xl font-bold text-foreground text-center'>
-        {CrossWord.question}
-      </h1>
+    <div className='flex flex-col items-center justify-center space-y-5 md:space-y-10 max-w-md'>
+      <h1 className='text-2xl font-bold text-center'>{CrossWord.question}</h1>
 
       <table>
         <tbody>

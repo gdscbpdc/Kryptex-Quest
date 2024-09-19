@@ -7,7 +7,7 @@ const CrosswordSquare = ({ cell, i, j, updateSquare, puzzle }) => {
         disabled
         variant='outlined'
         value={cell.persist}
-        className='w-full h-full text-center text-foreground border-2 border-foreground focus:outline-none'
+        className='w-full h-full text-center font-bold text-black focus:outline-none'
       />
     );
   } else {
@@ -17,7 +17,7 @@ const CrosswordSquare = ({ cell, i, j, updateSquare, puzzle }) => {
         variant='outlined'
         onChange={(e) => updateSquare(i, j, e)}
         value={puzzle[i][j] === 1 ? '' : puzzle[i][j]}
-        className='w-full h-full text-center text-foreground border-2 border-foreground focus:outline-none'
+        className='w-full h-full text-center font-bold text-black focus:outline-none'
       />
     );
   }

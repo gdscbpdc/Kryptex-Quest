@@ -33,9 +33,8 @@ const Home = () => {
       <TextField
         type='text'
         value={answer}
-        variant='outlined'
         className='w-full'
-        placeholder='Enter your answer'
+        label='Enter your answer'
         onChange={(e) => setAnswer(e.target.value)}
       />
 
