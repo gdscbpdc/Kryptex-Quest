@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { Button } from '@mui/material';
 
-import { CrossWord } from '@/lib/questions';
-import CustomDialog from '@/components/CustomDialog';
-import CrosswordSquare from '@/components/cross_word/CrosswordSquare';
+import { CrossWord } from '../../lib/questions';
+import CustomDialog from '../../components/CustomDialog';
+import CrosswordSquare from '../../components/cross_word/CrosswordSquare';
 
 const Home = () => {
   const crosswordData = [

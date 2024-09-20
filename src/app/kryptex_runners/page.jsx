@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import CustomDialog from '@/components/CustomDialog';
-import Title from '@/components/kryptex_runners/Title';
-import Kryptex from '@/components/kryptex_runners/Kryptex';
+import CustomDialog from '../../components/CustomDialog';
+import Title from '../../components/kryptex_runners/Title';
+import Kryptex from '../../components/kryptex_runners/Kryptex';
 
 export default function Home() {
   const runnerRef = useRef(null);
@@ -99,7 +99,8 @@ export default function Home() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center space-y-5 md:space-y-10'>
+    
+    <div className='flex flex-col items-center justify-center space-y-5 md:space-y-10 overflow-hidden h-screen'>
       <Title />
 
       <div className='game flex flex-col items-center justify-center relative overflow-hidden h-[300px] w-svw md:w-[90svw] max-w-[1200px] border-black border-2'>

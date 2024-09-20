@@ -1,15 +1,15 @@
 'use client';
 
 import {
+  Button,
   Card,
   CardContent,
-  Typography,
   TextField,
-  Button,
+  Typography,
 } from '@mui/material';
 import { useState } from 'react';
 
-import { useAuth } from '@/components/AuthProvider';
+import { useAuth } from '../../components/AuthProvider';
 
 const Login = () => {
   const { loginWithEmailAndPassword } = useAuth();

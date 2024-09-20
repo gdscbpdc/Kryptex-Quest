@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 
-import { useAuth } from '@/components/AuthProvider';
-import TeamName from '@/components/registration/TeamName';
-import TeamMembers from '@/components/registration/TeamMembers';
+import { useAuth } from '../../components/AuthProvider';
+import TeamName from '../../components/registration/TeamName';
+import TeamMembers from '../../components/registration/TeamMembers';
 
 const Register = () => {
   const { currentUser, registerWithEmailAndPassword } = useAuth();

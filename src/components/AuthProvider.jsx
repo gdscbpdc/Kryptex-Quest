@@ -12,7 +12,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import Loading from './Loading';
-import { auth } from '@/services/firebase.config';
+import { auth } from '../services/firebase.config';
 
 const AuthContext = createContext();
 

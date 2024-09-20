@@ -4,7 +4,7 @@ import { Button, TextField } from '@mui/material';
 import { useState } from 'react';
 
 import CustomDialog from '../../components/CustomDialog';
-import { BioInfomatics } from '../../lib/questions';
+import { Cybersecurity } from '../../lib/questions';
 
 const Home = () => {
   const [answer, setAnswer] = useState('');
@@ -16,7 +16,7 @@ const Home = () => {
       return alert('Please enter your answer!');
     }
 
-    if (answer.trim().toLowerCase() === BioInfomatics.answer) {
+    if (answer.trim().toLowerCase() === Cybersecurity.answer) {
       setHintVisible(true);
     } else {
       setHintVisible(false);
@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <div className='flex flex-col items-center space-y-5 md:space-y-10 max-w-md'>
       <h1 className='text-xl md:text-3xl font-bold text-center'>
-        {BioInfomatics.question}
+        {Cybersecurity.question}
       </h1>
 
       <TextField
@@ -46,7 +46,7 @@ const Home = () => {
         title='Hint'
         open={hintVisible}
         actionTitle='Close'
-        content={BioInfomatics.hint}
+        content={Cybersecurity.hint}
         onClick={() => {}}
       />
 
