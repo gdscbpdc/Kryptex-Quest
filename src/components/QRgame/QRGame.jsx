@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from 'next/image';
 
 function QRGame() {
-    const imageDataChunks = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const imageDataChunks = [1, 2, 3, 4, 5, 6, 7, 8];
     const [chunkStates, setChunkStates] = useState(imageDataChunks);
     const [selectedIndex, setSelectedIndex] = useState([]);
 
@@ -25,7 +25,7 @@ function QRGame() {
     };
 
     return (
-        <div className=" inline-grid grid-cols-3 gap-0">
+        <div className=" inline-grid grid-cols-4 gap-0">
             {chunkStates.map((imgId, index) => (
                 <div
                     key={index}
