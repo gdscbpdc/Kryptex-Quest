@@ -8,7 +8,7 @@ import { BioInfomatics } from '@/lib/questions';
 import { useAuth } from '@/components/AuthProvider';
 import CustomDialog from '@/components/CustomDialog';
 
-const BioInformatics = () => {
+const BioInformaticsPage = () => {
   const router = useRouter();
   const { currentUser } = useAuth();
 
@@ -73,4 +73,4 @@ const BioInformatics = () => {
   );
 };
 
-export default BioInformatics;
+export default BioInformaticsPage;

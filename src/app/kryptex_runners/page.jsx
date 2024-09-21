@@ -8,7 +8,7 @@ import CustomDialog from '@/components/CustomDialog';
 import Title from '@/components/kryptex_runners/Title';
 import Kryptex from '@/components/kryptex_runners/Kryptex';
 
-const KryptexRunners = () => {
+const KryptexRunnersPage = () => {
   const router = useRouter();
   const { currentUser } = useAuth();
 
@@ -156,4 +156,4 @@ const KryptexRunners = () => {
   );
 };
 
-export default KryptexRunners;
+export default KryptexRunnersPage;

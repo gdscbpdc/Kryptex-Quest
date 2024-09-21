@@ -8,7 +8,7 @@ import { useAuth } from '@/components/AuthProvider';
 import TeamName from '@/components/registration/TeamName';
 import TeamMembers from '@/components/registration/TeamMembers';
 
-const Register = () => {
+const RegisterPage = () => {
   const router = useRouter();
   const { currentUser, registerWithEmailAndPassword } = useAuth();
 
@@ -85,4 +85,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterPage;

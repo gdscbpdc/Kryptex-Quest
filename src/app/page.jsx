@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import { useAuth } from '@/components/AuthProvider';
 
-const Home = () => {
+const HomePage = () => {
   const router = useRouter();
   const { currentUser, getStep } = useAuth();
 
@@ -22,4 +22,4 @@ const Home = () => {
   return;
 };
 
-export default Home;
+export default HomePage;

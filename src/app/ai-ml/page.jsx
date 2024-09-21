@@ -7,7 +7,7 @@ import { AI_ML } from '@/lib/questions';
 import sentenceSimilarity from '@/lib/similarity';
 import CustomDialog from '@/components/CustomDialog';
 
-const AIML = () => {
+const AIMLPage = () => {
   const [userInput, setUserInput] = useState('');
   const [similarityScore, setSimilarityScore] = useState(null);
   const [hintVisible, setHintVisible] = useState(false);
@@ -55,4 +55,4 @@ const AIML = () => {
   );
 };
 
-export default AIML;
+export default AIMLPage;

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-const QRGame = () => {
+const QRGamePage = () => {
   const imageDataChunks = [1, 2, 3, 4, 5, 6, 7, 8];
   const [chunkStates, setChunkStates] = useState(imageDataChunks);
   const [selectedIndex, setSelectedIndex] = useState([]);
@@ -51,4 +51,4 @@ const QRGame = () => {
   );
 };
 
-export default QRGame;
+export default QRGamePage;

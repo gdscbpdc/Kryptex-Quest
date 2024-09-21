@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 
 import { useAuth } from '@/components/AuthProvider';
 
-const Login = () => {
+const LoginPage = () => {
   const router = useRouter();
   const { loginWithEmailAndPassword } = useAuth();
 
@@ -72,4 +72,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

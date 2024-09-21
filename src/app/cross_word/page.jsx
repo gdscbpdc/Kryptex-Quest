@@ -9,7 +9,7 @@ import { useAuth } from '@/components/AuthProvider';
 import CustomDialog from '@/components/CustomDialog';
 import CrosswordSquare from '@/components/cross_word/CrosswordSquare';
 
-const CrossWord = () => {
+const CrossWordPage = () => {
   const router = useRouter();
   const { currentUser } = useAuth();
 
@@ -113,4 +113,4 @@ const CrossWord = () => {
   );
 };
 
-export default CrossWord;
+export default CrossWordPage;

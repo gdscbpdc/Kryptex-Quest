@@ -6,7 +6,7 @@ import { Button, TextField } from '@mui/material';
 import { Cybersecurity } from '@/lib/questions';
 import CustomDialog from '@/components/CustomDialog';
 
-const Cybersecurity = () => {
+const CybersecurityPage = () => {
   const [answer, setAnswer] = useState('');
   const [hintVisible, setHintVisible] = useState(false);
   const [wrongAnswer, setWrongAnswer] = useState(false);
@@ -61,4 +61,4 @@ const Cybersecurity = () => {
   );
 };
 
-export default Cybersecurity;
+export default CybersecurityPage;
