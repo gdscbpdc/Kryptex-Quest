@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const QRGamePage = () => {
   const imageDataChunks = [1, 2, 3, 4, 5, 6, 7, 8];
