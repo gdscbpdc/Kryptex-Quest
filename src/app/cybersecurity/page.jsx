@@ -1,12 +1,12 @@
 'use client';
 
-import { Button, TextField } from '@mui/material';
 import { useState } from 'react';
+import { Button, TextField } from '@mui/material';
 
-import CustomDialog from '../../components/CustomDialog';
-import { Cybersecurity } from '../../lib/questions';
+import { Cybersecurity } from '@/lib/questions';
+import CustomDialog from '@/components/CustomDialog';
 
-const Home = () => {
+const Cybersecurity = () => {
   const [answer, setAnswer] = useState('');
   const [hintVisible, setHintVisible] = useState(false);
   const [wrongAnswer, setWrongAnswer] = useState(false);
@@ -61,4 +61,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Cybersecurity;

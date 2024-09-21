@@ -35,7 +35,7 @@ const Header = () => {
         </Button>
       </div>
 
-      <Progress />
+      {/* {(pathname !== '/login' || pathname !== '/register') && <Progress />} */}
     </div>
   );
 };

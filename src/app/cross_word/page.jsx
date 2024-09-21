@@ -2,12 +2,17 @@
 
 import { useState } from 'react';
 import { Button } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
-import { CrossWord } from '../../lib/questions';
-import CustomDialog from '../../components/CustomDialog';
-import CrosswordSquare from '../../components/cross_word/CrosswordSquare';
+import { CrossWord } from '@/lib/questions';
+import { useAuth } from '@/components/AuthProvider';
+import CustomDialog from '@/components/CustomDialog';
+import CrosswordSquare from '@/components/cross_word/CrosswordSquare';
 
-const Home = () => {
+const CrossWord = () => {
+  const router = useRouter();
+  const { currentUser } = useAuth();
+
   const crosswordData = [
     [0, 0, 1, 0],
     [1, 1, 1, { persist: 'A' }],
@@ -18,6 +23,13 @@ const Home = () => {
   const [puzzle, setPuzzle] = useState(crosswordData);
   const [showHint, setShowHint] = useState(false);
   const [showFailed, setShowFailed] = useState(false);
+
+  useEffect(() => {
+    if (!currentUser) {
+      console.log('User is not logged');
+      router.replace('/register');
+    }
+  }, [currentUser]);
 
   const updatePuzzleSquare = (i, j, event) => {
     const { value } = event.target;
@@ -101,4 +113,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default CrossWord;

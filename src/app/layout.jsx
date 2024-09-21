@@ -1,12 +1,12 @@
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+import { Open_Sans } from 'next/font/google';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import { Open_Sans } from 'next/font/google';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
-import { AuthProvider } from '../components/AuthProvider';
-import Header from '../components/Header';
-import theme from '../lib/theme';
 import './globals.css';
+import theme from '@/lib/theme';
+import Header from '@/components/Header';
+import { AuthProvider } from '@/components/AuthProvider';
 
 const open_sans = Open_Sans({
   subsets: ['latin'],

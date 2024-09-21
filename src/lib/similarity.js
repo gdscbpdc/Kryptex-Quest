@@ -1,6 +1,7 @@
 function tokenize(sentence) {
   return sentence ? sentence.toLowerCase().match(/\w+/g) || [] : [];
 }
+
 function wordFrequency(sentence) {
   let words = tokenize(sentence);
   let frequency = {};

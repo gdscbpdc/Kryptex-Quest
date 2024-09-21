@@ -1,17 +1,19 @@
 'use client';
 
 import {
-  Button,
   Card,
   CardContent,
-  TextField,
   Typography,
+  TextField,
+  Button,
 } from '@mui/material';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { useAuth } from '../../components/AuthProvider';
+import { useAuth } from '@/components/AuthProvider';
 
 const Login = () => {
+  const router = useRouter();
   const { loginWithEmailAndPassword } = useAuth();
 
   const [teamLeaderEmail, setTeamLeaderEmail] = useState('');
@@ -54,9 +56,10 @@ const Login = () => {
             <Button
               variant='contained'
               color='primary'
-              onClick={() =>
-                loginWithEmailAndPassword(teamLeaderEmail, teamLeaderPassword)
-              }
+              onClick={() => {
+                loginWithEmailAndPassword(teamLeaderEmail, teamLeaderPassword);
+                router.replace('/cross_word');
+              }}
               fullWidth
               disabled={!teamLeaderEmail || !teamLeaderPassword}
             >

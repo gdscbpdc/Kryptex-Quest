@@ -6,19 +6,16 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
-import { useRouter } from 'next/navigation';
 import { FirebaseError } from 'firebase/app';
 import { addDoc, collection } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import Loading from './Loading';
-import { auth } from '../services/firebase.config';
+import { auth } from '@/services/firebase.config';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const router = useRouter();
-
   const [currentUser, setCurrentUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
 
@@ -50,8 +47,6 @@ export const AuthProvider = ({ children }) => {
     setLoadingUser(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-
-      router.replace('/cross_word');
     } catch (error) {
       if (
         error instanceof FirebaseError &&
@@ -80,8 +75,6 @@ export const AuthProvider = ({ children }) => {
         step: 1,
         createdAt: new Date(),
       });
-
-      router.replace('/cross_word');
     } catch (error) {
       if (
         error instanceof FirebaseError &&

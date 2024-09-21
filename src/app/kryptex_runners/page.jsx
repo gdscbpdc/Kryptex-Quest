@@ -1,15 +1,19 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-import CustomDialog from '../../components/CustomDialog';
-import Title from '../../components/kryptex_runners/Title';
-import Kryptex from '../../components/kryptex_runners/Kryptex';
+import { useAuth } from '@/components/AuthProvider';
+import CustomDialog from '@/components/CustomDialog';
+import Title from '@/components/kryptex_runners/Title';
+import Kryptex from '@/components/kryptex_runners/Kryptex';
 
-export default function Home() {
+const KryptexRunners = () => {
+  const router = useRouter();
+  const { currentUser } = useAuth();
+
   const runnerRef = useRef(null);
   const obstacleRef = useRef(null);
-
   const [score, setScore] = useState(0);
   const [won, setWon] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -17,6 +21,13 @@ export default function Home() {
   const [runnerPosition, setRunnerPosition] = useState({ left: 50, bottom: 0 });
   const [obstacleActive, setObstacleActive] = useState(false);
   const [obstacleKey, setObstacleKey] = useState(0);
+
+  useEffect(() => {
+    if (!currentUser) {
+      console.log('User is not logged');
+      router.replace('/register');
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -99,8 +110,7 @@ export default function Home() {
   };
 
   return (
-    
-    <div className='flex flex-col items-center justify-center space-y-5 md:space-y-10 overflow-hidden h-screen'>
+    <div className='flex flex-col items-center justify-center space-y-5 md:space-y-10'>
       <Title />
 
       <div className='game flex flex-col items-center justify-center relative overflow-hidden h-[300px] w-svw md:w-[90svw] max-w-[1200px] border-black border-2'>
@@ -144,4 +154,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default KryptexRunners;

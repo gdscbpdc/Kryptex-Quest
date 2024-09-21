@@ -23,7 +23,6 @@ body {
   background-size: cover;
   background-repeat: repeat-x;
   background-image: url('/assets/background.png');
-  padding: 2rem;
 }
 
 @keyframes scrollBackground {
@@ -86,8 +85,4 @@ body {
 
 .paused {
   animation-play-state: paused;
-}
-
-.text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl {
-  margin-bottom: .5rem; 
 }

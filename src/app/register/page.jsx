@@ -1,13 +1,15 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 
-import { useAuth } from '../../components/AuthProvider';
-import TeamName from '../../components/registration/TeamName';
-import TeamMembers from '../../components/registration/TeamMembers';
+import { useAuth } from '@/components/AuthProvider';
+import TeamName from '@/components/registration/TeamName';
+import TeamMembers from '@/components/registration/TeamMembers';
 
 const Register = () => {
+  const router = useRouter();
   const { currentUser, registerWithEmailAndPassword } = useAuth();
 
   const [step, setStep] = useState(1);
@@ -39,6 +41,8 @@ const Register = () => {
 
   const handleSubmit = async (event) => {
     registerWithEmailAndPassword(teamLeaderEmail, teamLeaderPassword, teamName);
+
+    router.replace('/cross_word');
   };
 
   return (

@@ -1,9 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { useAuth } from '../components/AuthProvider';
+import { useAuth } from '@/components/AuthProvider';
 
 const Home = () => {
   const router = useRouter();

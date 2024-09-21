@@ -1,15 +1,27 @@
 'use client';
 
-import { Button, TextField } from '@mui/material';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button, TextField } from '@mui/material';
 
-import CustomDialog from '../../components/CustomDialog';
-import { BioInfomatics } from '../../lib/questions';
+import { BioInfomatics } from '@/lib/questions';
+import { useAuth } from '@/components/AuthProvider';
+import CustomDialog from '@/components/CustomDialog';
 
-const Home = () => {
+const BioInformatics = () => {
+  const router = useRouter();
+  const { currentUser } = useAuth();
+
   const [answer, setAnswer] = useState('');
   const [hintVisible, setHintVisible] = useState(false);
   const [wrongAnswer, setWrongAnswer] = useState(false);
+
+  useEffect(() => {
+    if (!currentUser) {
+      console.log('User is not logged');
+      router.replace('/register');
+    }
+  }, [currentUser]);
 
   const handleSubmit = () => {
     if (answer.trim().toLowerCase().length === 0) {
@@ -61,4 +73,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default BioInformatics;
