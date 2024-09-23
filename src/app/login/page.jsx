@@ -1,5 +1,7 @@
 'use client';
 
+import Loading from '@/components/Loading';
+import { getDecryptedItem } from '@/services/helperFunctions';
 import {
   Card,
   CardContent,
@@ -7,19 +9,45 @@ import {
   TextField,
   Button,
 } from '@mui/material';
-import { useState } from 'react';
-
-import { useAuth } from '@/components/AuthProvider';
-import { redirect } from 'next/navigation';
-import { order } from '@/lib/order';
+import { getDoc } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const LoginPage = () => {
-  const { loginWithEmailAndPassword, currentUser, team } = useAuth();
-
-  if (currentUser && team) return redirect(order[team.step || 0]);
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   const [teamLeaderEmail, setTeamLeaderEmail] = useState('');
   const [teamLeaderPassword, setTeamLeaderPassword] = useState('');
+
+  useEffect(() => {
+    const team = getDecryptedItem('team');
+    if (team) {
+      router.replace('/bio-infomatics');
+    }
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const teamDoc = await getDoc(doc(db, 'teams', teamLeaderEmail));
+      if (!teamDoc.exists) throw new Error('Team not found');
+      const teamData = teamDoc.data();
+      const hashedPassword = await hashValue(teamLeaderPassword);
+      if (hashedPassword === teamData.hashedPassword) {
+        setEncryptedItem('team', teamData);
+        router.replace('/bio-infomatics');
+      } else {
+        alert('Incorrect password');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
+  };
 
   return (
     <div className='max-w-xl'>
@@ -58,12 +86,7 @@ const LoginPage = () => {
             <Button
               variant='contained'
               color='primary'
-              onClick={async () => {
-                await loginWithEmailAndPassword(
-                  teamLeaderEmail,
-                  teamLeaderPassword
-                );
-              }}
+              onClick={handleSubmit}
               fullWidth
               disabled={!teamLeaderEmail || !teamLeaderPassword}
             >

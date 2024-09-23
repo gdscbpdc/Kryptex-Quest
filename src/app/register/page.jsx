@@ -1,18 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 
-import { useAuth } from '@/components/AuthProvider';
 import TeamName from '@/components/registration/TeamName';
 import TeamMembers from '@/components/registration/TeamMembers';
-import { redirect } from 'next/navigation';
-import { order } from '@/lib/order';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '@/services/firebase.config';
+import {
+  getDecryptedItem,
+  hashValue,
+  setEncryptedItem,
+} from '@/services/helperFunctions';
+import { useRouter } from 'next/navigation';
+import Loading from '@/components/Loading';
 
 const RegisterPage = () => {
-  const { registerWithEmailAndPassword, currentUser, team } = useAuth();
-
-  if (currentUser && team) return redirect(order[team.step || 0]);
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   const [step, setStep] = useState(1);
   const [teamName, setTeamName] = useState('');
@@ -20,6 +25,36 @@ const RegisterPage = () => {
   const [teamLeaderPassword, setTeamLeaderPassword] = useState('');
   const [teamMembers, setTeamMembers] = useState([{ name: '' }]);
 
+  useEffect(() => {
+    const team = getDecryptedItem('team');
+    if (team) {
+      router.replace('/bio-infomatics');
+    }
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const hashedPassword = await hashValue(teamLeaderPassword);
+    const teamData = {
+      teamName,
+      teamLeaderEmail,
+      hashedPassword,
+      teamMembers,
+      currentStep: 0,
+    };
+    try {
+      await setDoc(doc(db, 'teams', teamLeaderEmail), teamData);
+      setEncryptedItem('team', teamData);
+      alert('Team registered successfully!');
+    } catch (error) {
+      console.error('Error adding document: ', error);
+    }
+  };
   const handleAddMember = () => {
     if (teamMembers.length < 4) {
       setTeamMembers([...teamMembers, { name: '' }]);
@@ -35,15 +70,6 @@ const RegisterPage = () => {
     const newTeamMembers = [...teamMembers];
     newTeamMembers[index].name = event.target.value;
     setTeamMembers(newTeamMembers);
-  };
-
-  const handleSubmit = async (event) => {
-    registerWithEmailAndPassword(
-      teamLeaderEmail,
-      teamLeaderPassword,
-      teamName,
-      teamMembers
-    );
   };
 
   return (
