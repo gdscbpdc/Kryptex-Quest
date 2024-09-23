@@ -1,37 +1,23 @@
 'use client';
 
+import Link from 'next/link';
 import { Button } from '@mui/material';
-import { useRouter, usePathname } from 'next/navigation';
 
-import { useAuth } from './AuthProvider';
+import { isLoggedIn, logout } from '@/services/helperFunctions';
 
 const Header = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const { currentUser, logout } = useAuth();
-
   return (
     <div className='z-50 w-full top-0 fixed p-5 flex flex-col items-center gap-5 md:gap-10'>
       <div className='flex flex-row items-center justify-between w-full'>
-        <h1 className='text-lg md:text-3xl font-bold'>Kryptex Quest</h1>
+        <Link href='/'>
+          <h1 className='text-lg md:text-3xl font-bold code'>Kryptex Quest</h1>
+        </Link>
 
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={
-            currentUser
-              ? logout
-              : () =>
-                  router.push(pathname === '/login' ? '/register' : '/login')
-          }
-        >
-          {currentUser
-            ? 'Logout'
-            : pathname === '/login'
-            ? 'Register'
-            : 'Login'}
-        </Button>
+        {isLoggedIn() && (
+          <Button variant='contained' color='primary' onClick={logout}>
+            Logout
+          </Button>
+        )}
       </div>
     </div>
   );

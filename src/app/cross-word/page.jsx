@@ -6,6 +6,7 @@ import { Button } from '@mui/material';
 import { CrossWord } from '@/lib/questions';
 import Container from '@/components/Container';
 import CustomDialog from '@/components/CustomDialog';
+import { updateProgress } from '@/services/helperFunctions';
 import CrosswordSquare from '@/components/cross_word/CrosswordSquare';
 
 const CrossWordPage = () => {
@@ -39,8 +40,10 @@ const CrossWordPage = () => {
   const checkAnswer = async () => {
     const answer = puzzleToString();
 
-    if (answer !== CrossWord.answer) {
+    if (answer === CrossWord.answer) {
       setStage(2);
+
+      await updateProgress('/cross-word');
     } else {
       setShowFailed(true);
       setPuzzle(CrossWord.question);

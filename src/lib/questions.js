@@ -40,5 +40,5 @@ export const AI_ML = {
   question:
     '"Under the lightless sky, when the clock strikes thirteen, the one who wears the forgotten mask shall walk between worlds. The path will reveal itself not through sight, but through the touch of cold stone. Only then will the truth be unveiled."',
   answer:
-    'Write a cryptic and eerie prophecy involving an ancient ritual that must be performed under mysterious conditions. Focus on darkness, time, and hidden truths',
+    'Write a cryptic and eerie prophecy involving an ancient ritual that must be performed under mysterious conditions. Focus on darkness, time, and hidden truths.',
 };

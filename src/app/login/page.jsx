@@ -1,7 +1,5 @@
 'use client';
 
-import Loading from '@/components/Loading';
-import { getDecryptedItem } from '@/services/helperFunctions';
 import {
   Card,
   CardContent,
@@ -9,9 +7,19 @@ import {
   TextField,
   Button,
 } from '@mui/material';
-import { getDoc } from 'firebase/firestore';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { doc, getDoc } from 'firebase/firestore';
+
+import {
+  getAndUpdateTeam,
+  getDecryptedItem,
+  hashValue,
+  setEncryptedItem,
+} from '@/services/helperFunctions';
+import Loading from '@/components/Loading';
+import { db } from '@/services/firebase.config';
+import { order } from '@/lib/order';
 
 const LoginPage = () => {
   const router = useRouter();
@@ -23,7 +31,7 @@ const LoginPage = () => {
   useEffect(() => {
     const team = getDecryptedItem('team');
     if (team) {
-      router.replace('/bio-infomatics');
+      router.replace('/');
     }
     setLoading(false);
   }, []);
@@ -40,7 +48,7 @@ const LoginPage = () => {
       const hashedPassword = await hashValue(teamLeaderPassword);
       if (hashedPassword === teamData.hashedPassword) {
         setEncryptedItem('team', teamData);
-        router.replace('/bio-infomatics');
+        router.replace('/');
       } else {
         alert('Incorrect password');
       }

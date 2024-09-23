@@ -28,7 +28,7 @@ const RegisterPage = () => {
   useEffect(() => {
     const team = getDecryptedItem('team');
     if (team) {
-      router.replace('/bio-infomatics');
+      router.replace('/');
     }
     setLoading(false);
   }, []);
@@ -50,11 +50,12 @@ const RegisterPage = () => {
     try {
       await setDoc(doc(db, 'teams', teamLeaderEmail), teamData);
       setEncryptedItem('team', teamData);
-      alert('Team registered successfully!');
+      router.replace('/');
     } catch (error) {
       console.error('Error adding document: ', error);
     }
   };
+
   const handleAddMember = () => {
     if (teamMembers.length < 4) {
       setTeamMembers([...teamMembers, { name: '' }]);

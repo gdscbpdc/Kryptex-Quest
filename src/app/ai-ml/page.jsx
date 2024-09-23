@@ -6,6 +6,7 @@ import { Button, TextField } from '@mui/material';
 import { AI_ML } from '@/lib/questions';
 import Container from '@/components/Container';
 import sentenceSimilarity from '@/lib/similarity';
+import { updateProgress } from '@/services/helperFunctions';
 
 const AIMLPage = () => {
   const [stage, setStage] = useState(0);
@@ -19,6 +20,8 @@ const AIMLPage = () => {
 
     if (score > 75) {
       setStage(2);
+
+      await updateProgress('/ai-ml');
     }
   };
 

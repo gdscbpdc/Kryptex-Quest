@@ -1,37 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 
 import Container from '@/components/Container';
 import { Cybersecurity } from '@/lib/questions';
 import CustomDialog from '@/components/CustomDialog';
-import { useRouter } from 'next/navigation';
-import Loading from '@/components/Loading';
-import { getAndUpdateTeam, getDecryptedItem } from '@/services/helperFunctions';
-import { order } from '@/lib/order';
+import { updateProgress } from '@/services/helperFunctions';
 
 const CybersecurityPage = () => {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
-
   const [stage, setStage] = useState(0);
   const [answer, setAnswer] = useState('');
   const [wrongAnswer, setWrongAnswer] = useState(false);
-
-  useEffect(() => {
-    const team = getDecryptedItem('team');
-    if (!team) {
-      router.replace('/login');
-      return;
-    }
-    getAndUpdateTeam().then((team) => {
-      router.replace(order[team.currentStep]);
-      setLoading(false);
-    });
-  }, []);
-
-  if (loading) return <Loading />;
 
   const handleSubmit = async () => {
     if (answer.trim().toLowerCase().length === 0) {
@@ -40,6 +20,8 @@ const CybersecurityPage = () => {
 
     if (answer.trim().toLowerCase() === Cybersecurity.answer) {
       setStage(2);
+
+      await updateProgress('/cybersecurity');
     } else {
       setWrongAnswer(true);
     }

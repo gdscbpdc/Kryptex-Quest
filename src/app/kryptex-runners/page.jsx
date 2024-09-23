@@ -6,6 +6,7 @@ import Container from '@/components/Container';
 import CustomDialog from '@/components/CustomDialog';
 import Title from '@/components/kryptex_runners/Title';
 import Kryptex from '@/components/kryptex_runners/Kryptex';
+import { updateProgress } from '@/services/helperFunctions';
 
 const KryptexRunnersPage = () => {
   const runnerRef = useRef(null);
@@ -84,6 +85,8 @@ const KryptexRunnersPage = () => {
       setGameOver(true);
 
       setStage(2);
+
+      await updateProgress('/kryptex-runners');
     }
   };
 
@@ -102,7 +105,7 @@ const KryptexRunnersPage = () => {
   };
 
   return (
-    <Container stage={stage} setStage={setStage}>
+    <Container stage={stage} setStage={setStage} setScore={setScore}>
       <Title />
 
       <div className='game flex flex-col items-center justify-center relative overflow-hidden h-[300px] w-svw md:w-[90svw] max-w-[1200px] border-black border-2'>

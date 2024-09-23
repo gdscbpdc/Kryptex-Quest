@@ -1,8 +1,10 @@
 import CryptoJS from 'crypto-js';
 import { sha256 } from 'crypto-hash';
+
 import { Values } from './values';
-import { doc, getDoc } from 'firebase/firestore';
+import { order } from '@/lib/order';
 import { db } from './firebase.config';
+import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 
 export const setEncryptedItem = (key, value) => {
   try {
@@ -45,6 +47,7 @@ export const getAndUpdateTeam = async () => {
     return teamData;
   } catch (error) {
     console.error('Error: ', error);
+    return null;
   }
 };
 
@@ -56,4 +59,24 @@ export async function hashValue(value) {
 export const isLoggedIn = () => {
   const team = getDecryptedItem('team');
   return team !== null;
+};
+
+export const logout = () => {
+  localStorage.clear();
+  window.location.href = '/';
+};
+
+export const updateProgress = async (currentPath) => {
+  const team = getDecryptedItem('team');
+
+  await updateDoc(doc(db, 'teams', team.teamLeaderEmail), {
+    completedSteps: arrayUnion(currentPath),
+    currentStep: order.indexOf(currentPath) + 1,
+  });
+
+  setEncryptedItem('team', {
+    ...team,
+    completedSteps: [...team.completedSteps, currentPath],
+    currentStep: order.indexOf(currentPath) + 1,
+  });
 };
