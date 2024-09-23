@@ -8,19 +8,21 @@ import {
   Button,
 } from '@mui/material';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 import { useAuth } from '@/components/AuthProvider';
+import { redirect } from 'next/navigation';
+import { order } from '@/lib/order';
 
 const LoginPage = () => {
-  const router = useRouter();
-  const { loginWithEmailAndPassword } = useAuth();
+  const { loginWithEmailAndPassword, currentUser, team } = useAuth();
+
+  if (currentUser && team) return redirect(order[team.step || 0]);
 
   const [teamLeaderEmail, setTeamLeaderEmail] = useState('');
   const [teamLeaderPassword, setTeamLeaderPassword] = useState('');
 
   return (
-    <div className='w-full max-w-lg'>
+    <div className='max-w-xl'>
       <Card elevation={3} className='p-5'>
         <CardContent className='space-y-2 md:space-y-5'>
           <Typography
@@ -56,9 +58,11 @@ const LoginPage = () => {
             <Button
               variant='contained'
               color='primary'
-              onClick={() => {
-                loginWithEmailAndPassword(teamLeaderEmail, teamLeaderPassword);
-                router.replace('/cross_word');
+              onClick={async () => {
+                await loginWithEmailAndPassword(
+                  teamLeaderEmail,
+                  teamLeaderPassword
+                );
               }}
               fullWidth
               disabled={!teamLeaderEmail || !teamLeaderPassword}

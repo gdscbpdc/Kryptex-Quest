@@ -1,25 +1,11 @@
-'use client';
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-
-import { useAuth } from '@/components/AuthProvider';
-
 const HomePage = () => {
-  const router = useRouter();
-  const { currentUser, getStep } = useAuth();
-
-  useEffect(() => {
-    if (currentUser) {
-      console.log('User is logged in');
-      getStep();
-    } else {
-      console.log('User is not logged');
-      router.replace('/register');
-    }
-  }, [currentUser]);
-
-  return;
+  return (
+    <div className='container w-full h-full flex flex-col items-center justify-center px-5 md:px-0'>
+      <h1 className='text-2xl md:text-4xl font-bold text-center text-balance'>
+        Scan the first QR code to start the game
+      </h1>
+    </div>
+  );
 };
 
 export default HomePage;

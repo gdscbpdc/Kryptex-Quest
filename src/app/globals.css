@@ -19,6 +19,32 @@ body {
   background: var(--background);
 } */
 
+* {
+  box-sizing: border-box;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+}
+
+* ::-webkit-scrollbar {
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+.body {
+  margin: 0;
+  text-wrap: balance;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.code {
+  color: #9fef00 !important;
+  line-height: 1.5;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
 .game {
   background-size: cover;
   background-repeat: repeat-x;

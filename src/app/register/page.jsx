@@ -1,26 +1,24 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 
 import { useAuth } from '@/components/AuthProvider';
 import TeamName from '@/components/registration/TeamName';
 import TeamMembers from '@/components/registration/TeamMembers';
+import { redirect } from 'next/navigation';
+import { order } from '@/lib/order';
 
 const RegisterPage = () => {
-  const router = useRouter();
-  const { currentUser, registerWithEmailAndPassword } = useAuth();
+  const { registerWithEmailAndPassword, currentUser, team } = useAuth();
+
+  if (currentUser && team) return redirect(order[team.step || 0]);
 
   const [step, setStep] = useState(1);
   const [teamName, setTeamName] = useState('');
   const [teamLeaderEmail, setTeamLeaderEmail] = useState('');
   const [teamLeaderPassword, setTeamLeaderPassword] = useState('');
   const [teamMembers, setTeamMembers] = useState([{ name: '' }]);
-
-  useEffect(() => {
-    console.log(currentUser);
-  }, []);
 
   const handleAddMember = () => {
     if (teamMembers.length < 4) {
@@ -40,13 +38,16 @@ const RegisterPage = () => {
   };
 
   const handleSubmit = async (event) => {
-    registerWithEmailAndPassword(teamLeaderEmail, teamLeaderPassword, teamName);
-
-    router.replace('/cross_word');
+    registerWithEmailAndPassword(
+      teamLeaderEmail,
+      teamLeaderPassword,
+      teamName,
+      teamMembers
+    );
   };
 
   return (
-    <div className='w-full max-w-lg'>
+    <div className='max-w-xl'>
       <Card elevation={3} className='p-5'>
         <CardContent className='space-y-2 md:space-y-5'>
           <Typography

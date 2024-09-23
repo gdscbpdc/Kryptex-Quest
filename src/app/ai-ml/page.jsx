@@ -4,26 +4,31 @@ import { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 
 import { AI_ML } from '@/lib/questions';
+import Container from '@/components/Container';
 import sentenceSimilarity from '@/lib/similarity';
-import CustomDialog from '@/components/CustomDialog';
 
 const AIMLPage = () => {
+  const [stage, setStage] = useState(0);
   const [userInput, setUserInput] = useState('');
   const [similarityScore, setSimilarityScore] = useState(null);
-  const [hintVisible, setHintVisible] = useState(false);
 
-  const checkSimilarity = () => {
+  const checkSimilarity = async () => {
     const score = sentenceSimilarity(userInput, AI_ML.answer) * 100;
+
     setSimilarityScore(score);
-    setHintVisible(score > 75);
+
+    if (score > 75) {
+      setStage(2);
+    }
   };
 
   return (
-    <div className='flex flex-col items-center space-y-5 md:space-y-10 max-w-md mt-40'>
-      <h1 className='text-xl md:text-3xl font-bold text-center '>
-        {AI_ML.question}
-      </h1>
-
+    <Container
+      title={AI_ML.title}
+      question={AI_ML.question}
+      stage={stage}
+      setStage={setStage}
+    >
       <TextField
         type='text'
         value={userInput}
@@ -33,25 +38,17 @@ const AIMLPage = () => {
       />
 
       <Button className='w-full' variant='contained' onClick={checkSimilarity}>
-        Check Similarity
+        Check Answer
       </Button>
 
       {similarityScore !== null && (
-        <div className='text-center'>
-          <h2 className='text-lg'>
-            Cosine Similarity Score: {similarityScore.toFixed(2)}%
-          </h2>
-        </div>
+        <h2 className='text-center text-base md:text-lg'>
+          Cosine Similarity Score: {similarityScore.toFixed(2)}%
+          <br />
+          You need more than 75% to pass.
+        </h2>
       )}
-
-      <CustomDialog
-        title='Hint'
-        open={hintVisible}
-        actionTitle='Close'
-        content={AI_ML.hint}
-        onClick={() => setHintVisible(false)}
-      />
-    </div>
+    </Container>
   );
 };
 

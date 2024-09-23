@@ -3,7 +3,6 @@
 import { Button } from '@mui/material';
 import { useRouter, usePathname } from 'next/navigation';
 
-import Progress from './Progress';
 import { useAuth } from './AuthProvider';
 
 const Header = () => {
@@ -15,7 +14,7 @@ const Header = () => {
   return (
     <div className='z-50 w-full top-0 fixed p-5 flex flex-col items-center gap-5 md:gap-10'>
       <div className='flex flex-row items-center justify-between w-full'>
-        <h1 className='text-lg md:text-3xl font-bold'>Treasure Hunt</h1>
+        <h1 className='text-lg md:text-3xl font-bold'>Kryptex Quest</h1>
 
         <Button
           variant='contained'
@@ -34,8 +33,6 @@ const Header = () => {
             : 'Login'}
         </Button>
       </div>
-
-      {/* {(pathname !== '/login' || pathname !== '/register') && <Progress />} */}
     </div>
   );
 };
