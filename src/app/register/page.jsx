@@ -74,17 +74,12 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className='max-w-xl'>
-      <Card elevation={3} className='p-5'>
-        <CardContent className='space-y-2 md:space-y-5'>
-          <Typography
-            variant='h5'
-            align='center'
-            gutterBottom
-            fontWeight='bold'
-          >
+    <div className='container max-w-lg w-full h-full flex flex-col items-center justify-center px-5 md:px-0'>
+      <Card elevation={3} className='p-2 md:p-5'>
+        <CardContent className='space-y-5 md:space-y-10'>
+          <p className='text-xl md:text-3xl font-bold text-center text-balance'>
             {step === 1 ? 'Enter Your Team Name' : 'Register Your Team Members'}
-          </Typography>
+          </p>
 
           {step === 1 && (
             <TeamName

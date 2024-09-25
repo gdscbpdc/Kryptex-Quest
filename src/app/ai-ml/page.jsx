@@ -31,6 +31,7 @@ const AIMLPage = () => {
       question={AI_ML.question}
       stage={stage}
       setStage={setStage}
+      className='max-w-lg'
     >
       <TextField
         type='text'

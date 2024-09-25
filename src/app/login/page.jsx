@@ -12,14 +12,12 @@ import { useRouter } from 'next/navigation';
 import { doc, getDoc } from 'firebase/firestore';
 
 import {
-  getAndUpdateTeam,
   getDecryptedItem,
   hashValue,
   setEncryptedItem,
 } from '@/services/helperFunctions';
 import Loading from '@/components/Loading';
 import { db } from '@/services/firebase.config';
-import { order } from '@/lib/order';
 
 const LoginPage = () => {
   const router = useRouter();
@@ -58,17 +56,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className='max-w-xl'>
-      <Card elevation={3} className='p-5'>
-        <CardContent className='space-y-2 md:space-y-5'>
-          <Typography
-            variant='h5'
-            align='center'
-            gutterBottom
-            fontWeight='bold'
-          >
+    <div className='container max-w-lg w-full h-full flex flex-col items-center justify-center px-5 md:px-0'>
+      <Card elevation={3} className='p-2 md:p-5'>
+        <CardContent className='space-y-5 md:space-y-10'>
+          <p className='text-xl md:text-3xl font-bold text-center text-balance'>
             Login Your Team
-          </Typography>
+          </p>
 
           <div className='space-y-2 md:space-y-5'>
             <TextField
@@ -92,10 +85,10 @@ const LoginPage = () => {
             />
 
             <Button
-              variant='contained'
-              color='primary'
-              onClick={handleSubmit}
               fullWidth
+              color='primary'
+              variant='contained'
+              onClick={handleSubmit}
               disabled={!teamLeaderEmail || !teamLeaderPassword}
             >
               Continue

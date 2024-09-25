@@ -32,11 +32,12 @@ const BioInformaticsPage = () => {
       question={BioInfomatics.question}
       stage={stage}
       setStage={setStage}
+      className='max-w-lg'
     >
       <TextField
         type='text'
         value={answer}
-        className='w-full'
+        fullWidth
         label='Enter your answer'
         onChange={(e) => setAnswer(e.target.value)}
       />

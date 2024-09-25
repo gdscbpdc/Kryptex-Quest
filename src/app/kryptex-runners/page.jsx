@@ -108,7 +108,7 @@ const KryptexRunnersPage = () => {
     <Container stage={stage} setStage={setStage} setScore={setScore}>
       <Title />
 
-      <div className='game flex flex-col items-center justify-center relative overflow-hidden h-[300px] w-svw md:w-[90svw] max-w-[1200px] border-black border-2'>
+      <div className='game flex flex-col items-center justify-center relative overflow-hidden h-[300px] w-svw md:w-[90svw]'>
         <div className='aboslute top-3 left-3 text-lg md:text-xl'>
           Score: {score}
         </div>
