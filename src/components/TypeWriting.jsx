@@ -12,10 +12,10 @@ const TypeWriting = ({ text, onClick }) => {
   return (
     <div className='flex flex-col items-center justify-center space-y-5 md:space-y-10'>
       <TypeAnimation
-        sequence={[content, () => setShowButton(true)]}
         speed={50}
-        className='code text-xl md:text-3xl text-center text-balance font-bold'
         style={{ whiteSpace: 'pre-line' }}
+        sequence={[content, () => setShowButton(true)]}
+        className='code text-xl md:text-3xl text-center text-balance font-bold'
       />
 
       {showButton && onClick && (

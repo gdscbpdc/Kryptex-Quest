@@ -19,16 +19,16 @@ const Dashboard = ({ team }) => {
         </IconButton>
       </div>
 
-      <h1 className='text-2xl md:text-4xl font-bold text-center text-balance code'>
+      <h1 className='text-3xl md:text-5xl font-bold text-center text-balance code'>
         {team.teamName}
       </h1>
 
-      {team.currentStep < 0 ? (
+      <Progress team={team} />
+
+      {!team.currentStep && (
         <h1 className='text-2xl md:text-4xl font-bold text-center text-balance'>
           Scan the first QR code to start the game
         </h1>
-      ) : (
-        <Progress team={team} />
       )}
     </div>
   );

@@ -1,15 +1,22 @@
 'use client';
 
-import Loading from '@/components/Loading';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Alert, Snackbar } from '@mui/material';
+import { Scanner as QRScanner } from '@yudiel/react-qr-scanner';
+
 import {
   getAndUpdateTeam,
   scanAndUpdateProgress,
 } from '@/services/helperFunctions';
-import * as QRScanner from '@yudiel/react-qr-scanner';
-import { useEffect, useState } from 'react';
+import Loading from '@/components/Loading';
+import { order } from '@/lib/order';
 
 const Scanner = () => {
+  const router = useRouter();
   const [team, setTeam] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,24 +27,51 @@ const Scanner = () => {
     });
   }, []);
 
+  const onScan = async (data) => {
+    try {
+      const result = await scanAndUpdateProgress(data);
+
+      router.push(order[result]);
+    } catch (error) {
+      setError(error);
+      setOpen(true);
+    }
+  };
+
   if (loading) {
     return <Loading />;
   }
 
   return (
-    <div className='flex flex-col items-center justify-center gap-5 md:gap-10 w-full'>
-      <QRScanner.Scanner
-        allowMultiple={true}
-        scanDelay={1000}
-        styles={{
-          container: {
-            border: 'none',
-          },
-          finderBorder: 10,
-        }}
-        onScan={scanAndUpdateProgress}
-        onError={console.error}
-      />
+    <div className='container w-full h-full flex flex-col items-center justify-center gap-5 md:gap-10 px-5 md:px-0'>
+      <h1 className='text-2xl md:text-4xl font-bold text-center text-balance'>
+        Scan QR Code to Proceed to Next Stage of the Game
+      </h1>
+
+      <div className='w-full md:w-auto h-auto md:h-[50svh]'>
+        <QRScanner
+          styles={{
+            container: {
+              border: 'none',
+            },
+            finderBorder: 10,
+          }}
+          scanDelay={3000}
+          allowMultiple={true}
+          onError={console.error}
+          onScan={onScan}
+        />
+      </div>
+
+      <Snackbar
+        open={open}
+        autoHideDuration={5000}
+        onClose={() => setOpen(false)}
+      >
+        <Alert severity='error' variant='filled' sx={{ width: '100%' }}>
+          {error.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

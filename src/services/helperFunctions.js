@@ -99,18 +99,28 @@ export const scanAndUpdateProgress = async (dataObject) => {
 
   const stepDifference = updatedStep - currentStep;
 
-  //To handle first puzzle scanning when nothing is done yet ie current step is undefined
-  if (currentStepUndefined && updatedStep !== 0) {
-    //TODO @Archit1235 add toast to tell user to find next qr code and dont jump and cheat
-    console.error('Updated Step is not next step for team FIRST, returning');
-    return;
+  // If the updated step is already completed
+  if (updatedStep < currentStep) {
+    console.error('You have already completed this question');
+    throw new Error('You have already completed this question');
   }
 
-  //Current step is defined and updated step is not next step
+  // If the current step is not completed
+  if (!team.completedSteps?.includes(order[currentStep])) {
+    console.error('Complete the current question first');
+    throw new Error('Complete the current question first');
+  }
+
+  // To handle first puzzle scanning when nothing is done yet ie current step is undefined
+  if (currentStepUndefined && updatedStep !== 0) {
+    console.error("Don't Cheat, find the QR in order");
+    throw new Error("Don't Cheat, find the QR in order");
+  }
+
+  // Current step is defined and updated step is not next step
   if (!currentStepUndefined && stepDifference !== 1) {
-    //TODO @Archit1235 add toast to tell user to find next qr code and dont jump and cheat
-    console.error('Updated Step is not next step for team SECOND, returning');
-    return;
+    console.error("Don't Cheat, find the QR in order");
+    throw new Error("Don't Cheat, find the QR in order");
   }
 
   await updateDoc(doc(db, 'teams', team.teamLeaderEmail), {
@@ -123,5 +133,6 @@ export const scanAndUpdateProgress = async (dataObject) => {
   });
 
   console.log('Updated Step: ', updatedStep);
-  window.location.href = '/';
+
+  return updatedStep;
 };

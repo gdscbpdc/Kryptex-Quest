@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 import Loading from './Loading';
-import { order } from '@/lib/order';
 import TypeWriting from './TypeWriting';
 import { messages } from '@/lib/messages';
 import { getAndUpdateTeam, getDecryptedItem } from '@/services/helperFunctions';
@@ -51,8 +50,6 @@ const Container = ({
       }}
     />,
     <div className='flex flex-col items-center justify-center space-y-5 md:space-y-10'>
-      {/* <Progress /> */}
-
       <h1 className='text-2xl md:text-4xl font-bold text-center text-balance'>
         {title}
       </h1>
