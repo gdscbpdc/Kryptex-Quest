@@ -34,12 +34,8 @@ const Container = ({
     // setLoading(false);
 
     getAndUpdateTeam().then((team) => {
-      if (order[team.currentStep] !== pathname) {
-        if (team.completedSteps?.includes(pathname)) {
-          setStage(2);
-        } else {
-          router.replace('/');
-        }
+      if (team.completedSteps?.includes(pathname)) {
+        setStage(2);
       }
 
       setLoading(false);

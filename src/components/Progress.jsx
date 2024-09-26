@@ -57,19 +57,19 @@ const StepIcon = ({ isCompleted, currentStep }) => {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: '50%',
-        backgroundColor: currentStep
-          ? '#ffaf00'
-          : isCompleted
+        backgroundColor: isCompleted
           ? '#9fef00'
+          : currentStep
+          ? '#ffaf00'
           : '#ff3e3e',
         color: '#fff',
         zIndex: 2,
       }}
     >
-      {currentStep ? (
-        <></>
-      ) : isCompleted ? (
+      {isCompleted ? (
         <CheckIcon sx={{ fontSize: { xs: 20, md: 28 } }} />
+      ) : currentStep ? (
+        <></>
       ) : (
         <LockIcon sx={{ fontSize: { xs: 20, md: 28 } }} />
       )}
@@ -96,10 +96,10 @@ const Progress = ({ team }) => {
               <Step key={label}>
                 <Link
                   href={
-                    currentStep === index || isCompleted ? order[index] : ''
+                    isCompleted || currentStep === index ? order[index] : ''
                   }
                   className={
-                    currentStep === index || isCompleted
+                    isCompleted || currentStep === index
                       ? 'cursor-pointer'
                       : 'cursor-default'
                   }
@@ -113,7 +113,7 @@ const Progress = ({ team }) => {
                     )}
                   >
                     <p className='font-bold text-white text-lg'>
-                      {currentStep === index || isCompleted ? label : '???'}
+                      {isCompleted || currentStep === index ? label : '???'}
                     </p>
                   </StepLabel>
                 </Link>
@@ -136,10 +136,10 @@ const Progress = ({ team }) => {
               <Step key={label}>
                 <Link
                   href={
-                    currentStep === index || isCompleted ? order[index] : ''
+                    isCompleted || currentStep === index ? order[index] : ''
                   }
                   className={
-                    currentStep === index || isCompleted
+                    isCompleted || currentStep === index
                       ? 'cursor-pointer'
                       : 'cursor-default'
                   }
@@ -153,7 +153,7 @@ const Progress = ({ team }) => {
                     )}
                   >
                     <p className='font-bold text-white'>
-                      {currentStep === index || isCompleted ? label : '???'}
+                      {isCompleted || currentStep === index ? label : '???'}
                     </p>
                   </StepLabel>
                 </Link>

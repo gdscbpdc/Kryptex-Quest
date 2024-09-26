@@ -2,12 +2,19 @@ import { IconButton } from '@mui/material';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 
 import Progress from './Progress';
+import { useRouter } from 'next/navigation';
 
 const Dashboard = ({ team }) => {
+  const router = useRouter();
   return (
     <div className='flex flex-col items-center justify-center gap-5 md:gap-10 w-full'>
       <div className='absolute bottom-5 right-5 p-2 rounded-lg bg-background'>
-        <IconButton onClick={() => {}} size='medium'>
+        <IconButton
+          onClick={() => {
+            router.push('/scanner');
+          }}
+          size='medium'
+        >
           <QrCodeScannerIcon fontSize='large' color='primary' />
         </IconButton>
       </div>
@@ -21,9 +28,7 @@ const Dashboard = ({ team }) => {
           Scan the first QR code to start the game
         </h1>
       ) : (
-        <>
-          <Progress team={team} />
-        </>
+        <Progress team={team} />
       )}
     </div>
   );

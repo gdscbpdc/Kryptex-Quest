@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js';
 import { sha256 } from 'crypto-hash';
 
-import { Values } from './values';
+import { qrValues, Values } from './values';
 import { order } from '@/lib/order';
 import { db } from './firebase.config';
 import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
@@ -71,12 +71,42 @@ export const updateProgress = async (currentPath) => {
 
   await updateDoc(doc(db, 'teams', team.teamLeaderEmail), {
     completedSteps: arrayUnion(currentPath),
-    currentStep: order.indexOf(currentPath) + 1,
+    //currentStep: order.indexOf(currentPath) + 1,
   });
 
   setEncryptedItem('team', {
     ...team,
-    completedSteps: [...team.completedSteps, currentPath],
-    currentStep: order.indexOf(currentPath) + 1,
+    completedSteps: [...(team?.completedSteps ?? []), currentPath],
+    //currentStep: order.indexOf(currentPath) + 1,
   });
+};
+
+const getIndexByHashedId = (hashedId) => {
+  const path = Object.keys(qrValues).find((key) => qrValues[key] === hashedId);
+  return path ? order.indexOf(path) : -1;
+};
+
+export const scanAndUpdateProgress = async (dataObject) => {
+  const hashedId = dataObject[0]?.rawValue;
+  const team = getDecryptedItem('team');
+
+  console.log('Hashed ID: ', hashedId);
+
+  const updatedStep = getIndexByHashedId(hashedId);
+  console.log('Updated Step ', updatedStep);
+
+  if (updatedStep <= team?.currentStep ?? 0) return;
+
+  await updateDoc(doc(db, 'teams', team.teamLeaderEmail), {
+    currentStep: updatedStep,
+  });
+
+  setEncryptedItem('team', {
+    ...team,
+    currentStep: updatedStep,
+  });
+
+  console.log('Updated Progress');
+
+  window.location.href = '/';
 };
