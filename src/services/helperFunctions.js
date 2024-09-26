@@ -88,14 +88,30 @@ const getIndexByHashedId = (hashedId) => {
 
 export const scanAndUpdateProgress = async (dataObject) => {
   const hashedId = dataObject[0]?.rawValue;
-  const team = getDecryptedItem('team');
+  const team = await getAndUpdateTeam();
 
-  console.log('Hashed ID: ', hashedId);
+  const currentStepUndefined =
+    team.currentStep === undefined || team.currentStep === null;
+
+  const currentStep = team?.currentStep ?? 0;
 
   const updatedStep = getIndexByHashedId(hashedId);
-  console.log('Updated Step ', updatedStep);
 
-  if (updatedStep <= team?.currentStep ?? 0) return;
+  const stepDifference = updatedStep - currentStep;
+
+  //To handle first puzzle scanning when nothing is done yet ie current step is undefined
+  if (currentStepUndefined && updatedStep !== 0) {
+    //TODO @Archit1235 add toast to tell user to find next qr code and dont jump and cheat
+    console.error('Updated Step is not next step for team FIRST, returning');
+    return;
+  }
+
+  //Current step is defined and updated step is not next step
+  if (!currentStepUndefined && stepDifference !== 1) {
+    //TODO @Archit1235 add toast to tell user to find next qr code and dont jump and cheat
+    console.error('Updated Step is not next step for team SECOND, returning');
+    return;
+  }
 
   await updateDoc(doc(db, 'teams', team.teamLeaderEmail), {
     currentStep: updatedStep,
@@ -106,7 +122,6 @@ export const scanAndUpdateProgress = async (dataObject) => {
     currentStep: updatedStep,
   });
 
-  console.log('Updated Progress');
-
+  console.log('Updated Step: ', updatedStep);
   window.location.href = '/';
 };
