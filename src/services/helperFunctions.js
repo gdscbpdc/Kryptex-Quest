@@ -1,5 +1,6 @@
 import CryptoJS from 'crypto-js';
-import { sha256 } from 'crypto-hash';
+// import { sha256 } from 'crypto-hash';
+import { sha256 } from 'js-sha256';
 
 import { qrValues, Values } from './values';
 import { order } from '@/lib/order';
@@ -51,11 +52,10 @@ export const getAndUpdateTeam = async () => {
   }
 };
 
-export async function hashValue(value) {
-  const localHash = await sha256(value);
+export const hashValue = (value) => {
+  const localHash = sha256(value);
   return localHash;
-}
-
+};
 export const isLoggedIn = () => {
   const team = getDecryptedItem('team');
   return team !== null;

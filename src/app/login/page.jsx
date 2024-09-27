@@ -37,7 +37,7 @@ const LoginPage = () => {
       const teamDoc = await getDoc(doc(db, 'teams', teamLeaderEmail));
       if (!teamDoc.exists) throw new Error('Team not found');
       const teamData = teamDoc.data();
-      const hashedPassword = await hashValue(teamLeaderPassword);
+      const hashedPassword = hashValue(teamLeaderPassword);
       if (hashedPassword === teamData.hashedPassword) {
         setEncryptedItem('team', teamData);
         router.replace('/');

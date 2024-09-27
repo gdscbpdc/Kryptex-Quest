@@ -37,8 +37,7 @@ const Header = () => {
             </Button>
           </Link>
         ) : (
-          pathname ===
-          '/register'(
+          pathname === '/register' && (
             <Link href='/login'>
               <Button variant='contained' color='primary'>
                 Login

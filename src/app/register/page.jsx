@@ -39,7 +39,7 @@ const RegisterPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const hashedPassword = await hashValue(teamLeaderPassword);
+    const hashedPassword = hashValue(teamLeaderPassword);
     const teamData = {
       teamName,
       teamLeaderEmail,
