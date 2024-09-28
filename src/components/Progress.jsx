@@ -13,9 +13,9 @@ const steps = [
   'Bio Informatics',
   'Cyber Security',
   'Cross Word',
-  'QR Game',
   'Kryptex Runners',
   'AI ML',
+  'QR Game',
 ];
 
 const CustomConnector = styled(StepConnector)(({ theme }) => ({

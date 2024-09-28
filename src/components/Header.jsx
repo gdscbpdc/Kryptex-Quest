@@ -11,12 +11,11 @@ const Header = () => {
   const pathname = usePathname();
 
   return (
-    <div className='z-50 w-full top-0 fixed p-5 flex flex-col items-center gap-5 md:gap-10'>
+    <header className='z-50 w-full top-0 fixed p-5 flex flex-col items-center gap-5 md:gap-10 backdrop-blur-lg bg-transparent'>
       <div className='flex flex-row items-center justify-between w-full'>
         <Link href='/'>
           <TypeWriting text={'Kryptex Quest'} />
         </Link>
-        {/* <h1 className='text-xl md:text-3xl font-bold code'>Kryptex Quest</h1> */}
 
         {isLoggedIn() ? (
           pathname === '/' ? (
@@ -46,7 +45,7 @@ const Header = () => {
           )
         )}
       </div>
-    </div>
+    </header>
   );
 };
 

@@ -19,7 +19,7 @@ const Dashboard = ({ team }) => {
         </IconButton>
       </div>
 
-      <h1 className='text-3xl md:text-5xl font-bold text-center text-balance code'>
+      <h1 className='text-2xl md:text-5xl font-bold text-center text-balance code'>
         {team.teamName}
       </h1>
 

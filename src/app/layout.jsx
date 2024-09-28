@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Open_Sans } from 'next/font/google';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
@@ -7,7 +8,6 @@ import './globals.css';
 import theme from '@/lib/theme';
 import Header from '@/components/Header';
 import { AuthProvider } from '@/components/AuthProvider';
-import Image from 'next/image';
 
 const open_sans = Open_Sans({
   subsets: ['latin'],
@@ -21,7 +21,7 @@ export const metadata = {
   openGraph: {
     title: 'Kryptex Quest',
     description: 'A GDG Event',
-    url: 'https://nishitbatwal.com',
+    url: 'https://kryptex-quest.vercel.app/',
     siteName: 'Your Website',
     locale: 'en_US',
     type: 'website',
@@ -45,25 +45,28 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={`${open_sans.variable} antialiased`}>
+      <body
+        className={`${open_sans.variable} antialiased min-h-svh flex flex-col items-center justify-center`}
+      >
         <AppRouterCacheProvider options={{ key: 'css' }}>
           <ThemeProvider theme={theme}>
             <AuthProvider>
               <CssBaseline />
+
+              <Image
+                src='/logo.png'
+                alt='GDG Logo'
+                width={1000}
+                height={484}
+                priority
+                loading='eager'
+                className='absolute opacity-40 h-auto md:h-[60svh] w-[90svw] md:w-auto -z-10 blur-md'
+                draggable={false}
+              />
+
               <Header />
 
-              <main className='h-svh w-svw grid place-items-center'>
-                <Image
-                  src='/logo.png'
-                  alt='GDG Logo'
-                  width={1000}
-                  height={484}
-                  priority
-                  loading='eager'
-                  className='absolute grid place-items-center opacity-40 h-auto md:h-[60svh] w-[90svw] md:w-auto -z-10 blur-md'
-                  draggable={false}
-                />
-
+              <main className='w-svw grid place-items-center mt-[80px] md:mt-0'>
                 {children}
               </main>
             </AuthProvider>
