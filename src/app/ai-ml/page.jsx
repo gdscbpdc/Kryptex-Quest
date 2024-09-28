@@ -39,10 +39,11 @@ const AIMLPage = () => {
         className='w-full'
         label='Enter your answer'
         onChange={(e) => setUserInput(e.target.value)}
+        multiline
       />
 
       <Button className='w-full' variant='contained' onClick={checkSimilarity}>
-        Check Answer
+        Submit
       </Button>
 
       {similarityScore !== null && (

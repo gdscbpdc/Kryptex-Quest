@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Button } from '@mui/material';
 import { TypeAnimation } from 'react-type-animation';
 
-const TypeWriting = ({ text, onClick }) => {
+const TypeWriting = ({ text, onClick, buttonText }) => {
   const [showButton, setShowButton] = useState(false);
 
   const content = typeof text === 'string' ? text : [...text].join('\n');
@@ -26,7 +26,7 @@ const TypeWriting = ({ text, onClick }) => {
           size='large'
           onClick={onClick}
         >
-          Continue
+          {buttonText}
         </Button>
       )}
     </div>

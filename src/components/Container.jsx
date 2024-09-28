@@ -44,6 +44,7 @@ const Container = ({
   const questionStage = [
     <TypeWriting
       text={messages[pathname].before}
+      buttonText='Continue'
       onClick={() => {
         setStage(stage + 1);
         if (setScore) setScore(0);
@@ -62,7 +63,13 @@ const Container = ({
         {children}
       </div>
     </div>,
-    <TypeWriting text={messages[pathname].after} />,
+    <TypeWriting
+      text={messages[pathname].after}
+      buttonText='Scan Next'
+      onClick={() => {
+        router.push('/scanner');
+      }}
+    />,
   ];
 
   if (loading) {

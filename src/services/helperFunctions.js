@@ -106,7 +106,7 @@ export const scanAndUpdateProgress = async (dataObject) => {
   }
 
   // If the current step is not completed
-  if (!team.completedSteps?.includes(order[currentStep])) {
+  if (currentStep !== 0 && !team.completedSteps?.includes(order[currentStep])) {
     console.error('Complete the current question first');
     throw new Error('Complete the current question first');
   }
