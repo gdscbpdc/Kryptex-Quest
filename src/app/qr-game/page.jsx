@@ -6,10 +6,9 @@ import { useState } from 'react';
 const QRGamePage = () => {
   const imageDataChunks = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [chunkStates, setChunkStates] = useState(imageDataChunks);
-  // const [chunkStates, setChunkStates] = useState(
-  //   imageDataChunks.sort(() => Math.random() - 0.5)
-  // );
+  const [chunkStates, setChunkStates] = useState(
+    imageDataChunks.sort(() => Math.random() - 0.5)
+  );
 
   const swapChunks = (source, dest) => {
     let newChunkStates = [...chunkStates];
