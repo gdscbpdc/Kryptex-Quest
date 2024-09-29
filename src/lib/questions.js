@@ -1,15 +1,14 @@
 export const BioInfomatics = {
   question:
     "I'm the genetic dictionary that tells you how three letters in DNA are translated into one amino acid. What am I?",
-  answer: 'codon table',
 };
 
 export const Cybersecurity = {
   question: 'Decode this: 4a504355554b415a',
-  answer: 'sherlock',
 };
 
 export const CrossWord = {
+  title: 'Find the highest Scrabble US score',
   question: [
     [0, 0, { persist: 'Q' }, 0, 0, 0, 0, 0],
     [0, 0, 1, 0, 0, 0, 0, 0],
@@ -31,14 +30,10 @@ export const CrossWord = {
     [0, 0, 0, 0, 1, 1, 1, 0],
     [0, 0, 0, 0, { persist: 'Z' }, 0, 0, 0],
   ],
-  answer:
-    '00Q0000000U0000000I00000ZIZZ0Q0000Z00U0000E0SI000KRYPTEX00S0A0L00000ZEK00000Z000',
 };
 
 export const AI_ML = {
-  title: 'Reverse engineer the prompt',
+  title: 'Reverse-engineer the prompt that will lead AI to generate this text.',
   question:
-    '"Under the lightless sky, when the clock strikes thirteen, the one who wears the forgotten mask shall walk between worlds. The path will reveal itself not through sight, but through the touch of cold stone. Only then will the truth be unveiled."',
-  answer:
-    'Write a cryptic and eerie prophecy involving an ancient ritual that must be performed under mysterious conditions. Focus on darkness, time, and hidden truths.',
+    '"In the heart of the ancient forest, a door lies hidden beneath a cascade of fallen leaves. Only those who carry the forgotten token may pass, and beyond the door lies the secret that has eluded seekers for centuries."',
 };

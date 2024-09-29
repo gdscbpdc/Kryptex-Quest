@@ -1,26 +1,35 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
-
-import TeamName from '@/components/registration/TeamName';
-import TeamMembers from '@/components/registration/TeamMembers';
-import { doc, setDoc } from 'firebase/firestore';
-import { db } from '@/services/firebase.config';
 import {
-  getDecryptedItem,
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Card, CardContent } from '@mui/material';
+
+import {
   hashValue,
   setEncryptedItem,
+  getDecryptedItem,
 } from '@/services/helperFunctions';
-import { useRouter } from 'next/navigation';
 import Loading from '@/components/Loading';
+import { db } from '@/services/firebase.config';
+import AlertSnackbar from '@/components/AlertSnackbar';
+import TeamDetails from '@/components/registration/TeamDetails';
+import TeamMembers from '@/components/registration/TeamMembers';
 
 const RegisterPage = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-
   const [step, setStep] = useState(1);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
   const [teamName, setTeamName] = useState('');
+  const [buttonLoading, setButtonLoading] = useState(false);
   const [teamLeaderEmail, setTeamLeaderEmail] = useState('');
   const [teamLeaderPassword, setTeamLeaderPassword] = useState('');
   const [teamMembers, setTeamMembers] = useState([{ name: '' }]);
@@ -33,26 +42,72 @@ const RegisterPage = () => {
     setLoading(false);
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  const handleSubmit = async (event) => {
+  const handleStep1 = async (event) => {
     event.preventDefault();
+
+    setButtonLoading(true);
+
+    try {
+      const teamsRef = collection(db, 'teams');
+
+      const nameSnapshot = await getDocs(
+        query(teamsRef, where('teamName', '==', teamName))
+      );
+
+      if (!nameSnapshot.empty) {
+        setError('Team with same team name already exists.');
+        console.log('A team with the same team name already exists!');
+        return;
+      }
+
+      const emailSnapshot = await getDocs(
+        query(teamsRef, where('teamLeaderEmail', '==', teamLeaderEmail))
+      );
+
+      if (!emailSnapshot.empty) {
+        setError('Team with same email already exists.');
+        console.log('A team with the same email already exists!');
+        return;
+      }
+
+      if (teamLeaderPassword.length < 8) {
+        setError('Password should be atleast 8 characters long.');
+        console.log('Password should be atleast 8 characters long.');
+        return;
+      }
+
+      setStep(2);
+    } catch (error) {
+      setError('Error registering team');
+      console.error('Error registering team: ', error);
+    } finally {
+      setButtonLoading(false);
+    }
+  };
+
+  const handleStep2 = async (event) => {
+    event.preventDefault();
+
+    setButtonLoading(true);
+
     const hashedPassword = hashValue(teamLeaderPassword);
     const teamData = {
       teamName,
       teamLeaderEmail,
       hashedPassword,
       teamMembers,
-      currentStep: 0,
+      currentStep: -1,
     };
+
     try {
       await setDoc(doc(db, 'teams', teamLeaderEmail), teamData);
       setEncryptedItem('team', teamData);
       router.replace('/');
     } catch (error) {
-      console.error('Error adding document: ', error);
+      setError('Error registering team');
+      console.error('Error registering team: ', error);
+    } finally {
+      setButtonLoading(false);
     }
   };
 
@@ -73,39 +128,47 @@ const RegisterPage = () => {
     setTeamMembers(newTeamMembers);
   };
 
-  return (
-    <div className='container max-w-lg w-full h-full flex flex-col items-center justify-center px-5 md:px-0'>
-      <Card elevation={3} className='p-2 md:p-5'>
-        <CardContent className='space-y-5 md:space-y-10'>
-          <p className='text-xl md:text-3xl font-bold text-center text-balance'>
-            {step === 1 ? 'Enter Your Team Name' : 'Register Your Team Members'}
-          </p>
+  if (loading) {
+    return <Loading />;
+  } else {
+    return (
+      <div className='container max-w-lg w-full h-full flex flex-col items-center justify-center px-5 md:px-0'>
+        <Card elevation={3} className='p-2 md:p-5 w-full'>
+          <CardContent className='space-y-5 md:space-y-10'>
+            <p className='text-xl md:text-3xl font-bold text-center text-balance'>
+              {step === 1 ? 'Team Details' : 'Team Members'}
+            </p>
 
-          {step === 1 && (
-            <TeamName
-              teamName={teamName}
-              setTeamName={setTeamName}
-              handleNextStep={() => setStep(2)}
-              teamLeaderEmail={teamLeaderEmail}
-              teamLeaderPassword={teamLeaderPassword}
-              setTeamLeaderPassword={setTeamLeaderPassword}
-              setTeamLeaderEmail={setTeamLeaderEmail}
-            />
-          )}
+            {step === 1 && (
+              <TeamDetails
+                teamName={teamName}
+                setTeamName={setTeamName}
+                handleSubmit={handleStep1}
+                teamLeaderEmail={teamLeaderEmail}
+                teamLeaderPassword={teamLeaderPassword}
+                setTeamLeaderPassword={setTeamLeaderPassword}
+                setTeamLeaderEmail={setTeamLeaderEmail}
+                buttonLoading={buttonLoading}
+              />
+            )}
 
-          {step === 2 && (
-            <TeamMembers
-              teamMembers={teamMembers}
-              handleAddMember={handleAddMember}
-              handleRemoveMember={handleRemoveMember}
-              handleMemberInputChange={handleMemberInputChange}
-              handleSubmit={handleSubmit}
-            />
-          )}
-        </CardContent>
-      </Card>
-    </div>
-  );
+            {step === 2 && (
+              <TeamMembers
+                teamMembers={teamMembers}
+                handleAddMember={handleAddMember}
+                handleRemoveMember={handleRemoveMember}
+                handleMemberInputChange={handleMemberInputChange}
+                handleSubmit={handleStep2}
+                buttonLoading={buttonLoading}
+              />
+            )}
+          </CardContent>
+        </Card>
+
+        <AlertSnackbar error={error} setError={setError} />
+      </div>
+    );
+  }
 };
 
 export default RegisterPage;

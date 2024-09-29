@@ -1,13 +1,13 @@
 export const Values = {
-  encryptionKey: '6Ldl0FYpAAAAAIVfMusch-kV38Sj-AVXbsxpLJVy',
-  emiratesIdRegex: /^784\d{12}$/,
+  encryptionKey: process.env.NEXT_PUBLIC_ENCRIPTED_KEY,
 };
 
 export const qrValues = {
-  '/bio-infomatics': 'ua9btDyKVPKrQKUi',
-  '/cybersecurity': 'lEnV2mPT15okr+yZ',
-  '/cross-word': '+D0pjupOi6XkilOI',
-  '/kryptex-runners': '/5XMqP08X5Ig3fvT',
-  '/ai-ml': '+QQ6TFKNF3oxq03p',
-  '/qr-game': 'mKhFEWA81HmrG4B1',
+  '/bio-infomatics': process.env.NEXT_PUBLIC_BIO_INFOMATICS,
+  '/cybersecurity': process.env.NEXT_PUBLIC_CYBERSECURITY,
+  '/cross-word': process.env.NEXT_PUBLIC_CROSS_WORD,
+  '/kryptex-runners': process.env.NEXT_PUBLIC_KRYPTEX_RUNNERS,
+  '/ai-ml': process.env.NEXT_PUBLIC_AI_ML,
+  '/qr-game': process.env.NEXT_PUBLIC_QR_GAME,
+  '/the-end': process.env.NEXT_PUBLIC_THE_END,
 };

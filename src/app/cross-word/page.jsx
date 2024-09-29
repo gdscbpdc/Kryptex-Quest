@@ -5,14 +5,15 @@ import { Button } from '@mui/material';
 
 import { CrossWord } from '@/lib/questions';
 import Container from '@/components/Container';
-import CustomDialog from '@/components/CustomDialog';
+import { submitAnswer } from '@/lib/submitAnswer';
+import AlertSnackbar from '@/components/AlertSnackbar';
 import { updateProgress } from '@/services/helperFunctions';
 import CrosswordSquare from '@/components/cross_word/CrosswordSquare';
 
 const CrossWordPage = () => {
   const [stage, setStage] = useState(0);
+  const [error, setError] = useState('');
   const [puzzle, setPuzzle] = useState(CrossWord.question);
-  const [showFailed, setShowFailed] = useState(false);
 
   const updatePuzzleSquare = (i, j, event) => {
     const { value } = event.target;
@@ -37,21 +38,21 @@ const CrossWordPage = () => {
     return pString;
   };
 
-  const checkAnswer = async () => {
+  const handleSubmit = async () => {
+    setError('');
+
     const answer = puzzleToString();
 
-    if (answer === CrossWord.answer) {
-      setStage(2);
+    const result = await submitAnswer(answer, '/cross-word');
 
+    if (result === true) {
+      setStage(2);
       await updateProgress('/cross-word');
-    } else {
-      setShowFailed(true);
-      setPuzzle(CrossWord.question);
-    }
+    } else setError(result.error);
   };
 
   return (
-    <Container stage={stage} setStage={setStage}>
+    <Container stage={stage} setStage={setStage} title={CrossWord.title}>
       <table>
         <tbody>
           {puzzle.map((rowData, i) => (
@@ -73,17 +74,20 @@ const CrossWordPage = () => {
         </tbody>
       </table>
 
-      <Button onClick={checkAnswer} variant='contained' className='w-full'>
+      <Button
+        size='large'
+        onClick={handleSubmit}
+        variant='contained'
+        className='w-full'
+      >
         Submit
       </Button>
 
-      <CustomDialog
-        open={showFailed}
-        title='Incorrect'
-        content='Please try again'
-        onClick={() => setShowFailed(false)}
-        actionTitle='Try Again'
-      />
+      <p className='text-center text-base md:text-lg font-semibold'>
+        Can't figure it out? Head back to the stall.
+      </p>
+
+      <AlertSnackbar error={error} setError={setError} />
     </Container>
   );
 };

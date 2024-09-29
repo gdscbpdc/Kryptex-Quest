@@ -62,7 +62,7 @@ const KryptexRunnersPage = () => {
 
   const jump = () => {
     setIsJumping(true);
-    setTimeout(() => setIsJumping(false), 500);
+    setTimeout(() => setIsJumping(false), 600);
   };
 
   const updateGame = async () => {

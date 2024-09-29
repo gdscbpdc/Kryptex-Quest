@@ -5,4 +5,5 @@ export const order = [
   '/kryptex-runners',
   '/ai-ml',
   '/qr-game',
+  '/the-end',
 ];

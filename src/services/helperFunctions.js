@@ -1,11 +1,11 @@
 import CryptoJS from 'crypto-js';
-// import { sha256 } from 'crypto-hash';
 import { sha256 } from 'js-sha256';
+// import { sha256 } from 'crypto-hash';
+import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 
-import { qrValues, Values } from './values';
 import { order } from '@/lib/order';
 import { db } from './firebase.config';
-import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { qrValues, Values } from './values';
 
 export const setEncryptedItem = (key, value) => {
   try {
@@ -56,6 +56,7 @@ export const hashValue = (value) => {
   const localHash = sha256(value);
   return localHash;
 };
+
 export const isLoggedIn = () => {
   const team = getDecryptedItem('team');
   return team !== null;
@@ -83,38 +84,45 @@ export const updateProgress = async (currentPath) => {
 
 const getIndexByHashedId = (hashedId) => {
   const path = Object.keys(qrValues).find((key) => qrValues[key] === hashedId);
+
   return path ? order.indexOf(path) : -1;
 };
 
 export const scanAndUpdateProgress = async (dataObject) => {
   const hashedId = dataObject[0]?.rawValue;
+
+  const updatedStep = getIndexByHashedId(hashedId);
+
+  if (updatedStep === 6) {
+    await updateProgress('/qr-game');
+  }
+
   const team = await getAndUpdateTeam();
 
   const currentStepUndefined =
     team.currentStep === undefined || team.currentStep === null;
 
-  const currentStep = team?.currentStep ?? 0;
-
-  const updatedStep = getIndexByHashedId(hashedId);
+  const currentStep = team.currentStep;
 
   const stepDifference = updatedStep - currentStep;
 
+  console.log('Current Step: ', currentStep);
+  console.log('Updated Step: ', updatedStep);
+  console.log('Step Difference: ', stepDifference);
+
   // If the updated step is already completed
-  if (updatedStep < currentStep) {
+  if (team.completedSteps?.includes(order[updatedStep])) {
     console.error('You have already completed this question');
     throw new Error('You have already completed this question');
   }
 
   // If the current step is not completed
-  if (currentStep !== 0 && !team.completedSteps?.includes(order[currentStep])) {
+  if (
+    currentStep !== -1 &&
+    !team.completedSteps?.includes(order[currentStep])
+  ) {
     console.error('Complete the current question first');
     throw new Error('Complete the current question first');
-  }
-
-  // To handle first puzzle scanning when nothing is done yet ie current step is undefined
-  if (currentStepUndefined && updatedStep !== 0) {
-    console.error("Don't Cheat, find the QR in order");
-    throw new Error("Don't Cheat, find the QR in order");
   }
 
   // Current step is defined and updated step is not next step
@@ -132,7 +140,81 @@ export const scanAndUpdateProgress = async (dataObject) => {
     currentStep: updatedStep,
   });
 
+  // when the user scans the first QR code (/bio-infomatics), the timer should start
+  if (updatedStep === 0) {
+    startTimer();
+  }
+
   console.log('Updated Step: ', updatedStep);
 
   return updatedStep;
+};
+
+export const startTimer = async () => {
+  const team = getDecryptedItem('team');
+
+  const startTime = new Date().toISOString();
+
+  await updateDoc(doc(db, 'teams', team.teamLeaderEmail), {
+    startTime: startTime,
+  });
+
+  setEncryptedItem('team', {
+    ...team,
+    startTime: startTime,
+  });
+};
+
+export const getStartTime = () => {
+  const team = getDecryptedItem('team');
+  return team.startTime;
+};
+
+export const getElapsedTime = () => {
+  const team = getDecryptedItem('team');
+
+  if (!team.elapsedTime) {
+    console.log('local');
+    const currentTime = new Date().toISOString();
+    const elapsedTime = formatTime(
+      Math.floor((new Date(currentTime) - new Date(team.startTime)) / 1000)
+    );
+
+    console.log('db');
+    return elapsedTime;
+  }
+
+  return team.elapsedTime;
+};
+
+export const endTimer = async () => {
+  const team = getDecryptedItem('team');
+
+  const endTime = new Date().toISOString();
+
+  const elapsedTime = formatTime(
+    Math.floor((new Date(endTime) - new Date(team.startTime)) / 1000)
+  );
+
+  await updateDoc(doc(db, 'teams', team.teamLeaderEmail), {
+    endTime: endTime,
+    elapsedTime: elapsedTime,
+  });
+
+  setEncryptedItem('team', {
+    ...team,
+    endTime: endTime,
+    elapsedTime: elapsedTime,
+  });
+};
+
+export const formatTime = (seconds) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(
+    2,
+    '0'
+  )}:${String(secs).padStart(2, '0')}`;
 };

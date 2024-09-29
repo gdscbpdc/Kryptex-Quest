@@ -24,42 +24,44 @@ const HomePage = () => {
 
   if (loading) {
     return <Loading />;
-  }
+  } else {
+    return (
+      <div className='container w-full h-full flex flex-col items-center justify-center px-5 md:px-0'>
+        {team ? (
+          <Dashboard team={team} />
+        ) : (
+          <div className='flex flex-col items-center gap-5'>
+            <TypeWriting
+              text={[
+                'Welcome to Kryptex Quest',
+                'Login or Register to start the game',
+              ]}
+            />
 
-  return (
-    <div className='container w-full h-full flex flex-col items-center justify-center px-5 md:px-0'>
-      {team ? (
-        <Dashboard team={team} />
-      ) : (
-        <div className='flex flex-col items-center gap-5'>
-          <TypeWriting
-            text={[
-              'Welcome to Kryptex Quest',
-              'Login or Register to start the game',
-            ]}
-          />
+            <div className='flex flex-row gap-5'>
+              <Button
+                size='large'
+                variant='outlined'
+                color='primary'
+                onClick={() => router.push('/login')}
+              >
+                Login
+              </Button>
 
-          <div className='flex flex-row gap-5'>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={() => router.push('/login')}
-            >
-              Login
-            </Button>
-
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={() => router.push('/register')}
-            >
-              Register
-            </Button>
+              <Button
+                size='large'
+                variant='contained'
+                color='primary'
+                onClick={() => router.push('/register')}
+              >
+                Register
+              </Button>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
-  );
+        )}
+      </div>
+    );
+  }
 };
 
 export default HomePage;

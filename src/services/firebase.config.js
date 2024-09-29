@@ -1,16 +1,16 @@
-import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAnalytics, isSupported } from 'firebase/analytics';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBdh4OLSG9sb_N7scPJSauc0N5NOHbbY_E',
-  authDomain: 'treasure-hunt-2024-7326f.firebaseapp.com',
-  projectId: 'treasure-hunt-2024-7326f',
-  storageBucket: 'treasure-hunt-2024-7326f.appspot.com',
-  messagingSenderId: '458107416468',
-  appId: '1:458107416468:web:e2ab5058ddc6774084a981',
-  measurementId: 'G-VPM1MMKZTT',
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 };
 
 export const app = initializeApp(firebaseConfig);

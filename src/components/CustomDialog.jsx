@@ -15,7 +15,7 @@ const CustomDialog = ({ open, title, content, onClick, actionTitle }) => {
         <DialogContentText>{content}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClick} variant='contained'>
+        <Button size='large' onClick={onClick} variant='contained'>
           {actionTitle}
         </Button>
       </DialogActions>

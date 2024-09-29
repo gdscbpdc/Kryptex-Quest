@@ -66,7 +66,7 @@ export default function RootLayout({ children }) {
 
               <Header />
 
-              <main className='w-svw grid place-items-center mt-[80px] md:mt-0'>
+              <main className='w-svw h-full grid place-items-center mt-[80px] md:mt-0'>
                 {children}
               </main>
             </AuthProvider>

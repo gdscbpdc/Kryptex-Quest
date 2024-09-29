@@ -5,26 +5,29 @@ import { Button, TextField } from '@mui/material';
 
 import Container from '@/components/Container';
 import { BioInfomatics } from '@/lib/questions';
-import CustomDialog from '@/components/CustomDialog';
+import { submitAnswer } from '@/lib/submitAnswer';
+import AlertSnackbar from '@/components/AlertSnackbar';
 import { updateProgress } from '@/services/helperFunctions';
 
 const BioInformaticsPage = () => {
   const [stage, setStage] = useState(0);
   const [answer, setAnswer] = useState('');
-  const [wrongAnswer, setWrongAnswer] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async () => {
-    if (answer.trim().length === 0) {
-      return alert('Please enter your answer!');
+    setError('');
+
+    if (!answer.trim()) {
+      setError('Enter an answer!');
+      return;
     }
 
-    if (answer.trim().toLowerCase() === BioInfomatics.answer) {
+    const result = await submitAnswer(answer, '/bio-infomatics');
+
+    if (result === true) {
       setStage(2);
-
       await updateProgress('/bio-infomatics');
-    } else {
-      setWrongAnswer(true);
-    }
+    } else setError(result.error);
   };
 
   return (
@@ -42,17 +45,16 @@ const BioInformaticsPage = () => {
         onChange={(e) => setAnswer(e.target.value)}
       />
 
-      <Button className='w-full' variant='contained' onClick={handleSubmit}>
+      <Button
+        size='large'
+        className='w-full'
+        variant='contained'
+        onClick={handleSubmit}
+      >
         Submit
       </Button>
 
-      <CustomDialog
-        open={wrongAnswer}
-        title='Wrong Answer'
-        actionTitle='Try Again'
-        content='Please try again!'
-        onClick={() => setWrongAnswer(false)}
-      />
+      <AlertSnackbar error={error} setError={setError} />
     </Container>
   );
 };

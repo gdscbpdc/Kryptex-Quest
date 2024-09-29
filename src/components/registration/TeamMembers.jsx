@@ -1,5 +1,5 @@
 import { Add, Remove } from '@mui/icons-material';
-import { Box, TextField, Button, IconButton } from '@mui/material';
+import { TextField, Button, IconButton, CircularProgress } from '@mui/material';
 
 const TeamMembers = ({
   teamMembers,
@@ -7,18 +7,19 @@ const TeamMembers = ({
   handleRemoveMember,
   handleMemberInputChange,
   handleSubmit,
+  buttonLoading,
 }) => {
   return (
-    <form onSubmit={handleSubmit} className='space-y-2 md:space-y-5'>
+    <form onSubmit={handleSubmit} className='space-y-5'>
       {teamMembers.map((member, index) => (
-        <Box key={index} display='flex' alignItems='center' gap={2}>
+        <div key={index} className='flex flex-row items-center gap-1 md:gap-2'>
           <TextField
-            label={`Member ${index + 1}`}
-            variant='outlined'
-            fullWidth
-            value={member.name}
-            onChange={(e) => handleMemberInputChange(index, e)}
             required
+            fullWidth
+            variant='outlined'
+            value={member.name}
+            label={`Member ${index + 1}`}
+            onChange={(e) => handleMemberInputChange(index, e)}
           />
 
           {teamMembers.length > 1 && (
@@ -26,22 +27,33 @@ const TeamMembers = ({
               <Remove />
             </IconButton>
           )}
-        </Box>
+        </div>
       ))}
 
       {teamMembers.length < 4 && (
         <Button
-          variant='contained'
-          startIcon={<Add />}
-          onClick={handleAddMember}
           fullWidth
+          size='large'
+          variant='outlined'
+          startIcon={<Add />}
+          color='secondary'
+          onClick={handleAddMember}
         >
           Add Member
         </Button>
       )}
 
-      <Button type='submit' variant='contained' color='success' fullWidth>
-        Submit
+      <Button
+        size='large'
+        type='submit'
+        variant='contained'
+        fullWidth
+        disabled={
+          teamMembers.length < 2 ||
+          teamMembers.map((m) => m.name === '').includes(true)
+        }
+      >
+        {buttonLoading ? <CircularProgress size={26} /> : 'Register'}
       </Button>
     </form>
   );

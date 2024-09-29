@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Alert, Snackbar } from '@mui/material';
 import { Scanner as QRScanner } from '@yudiel/react-qr-scanner';
 
 import {
@@ -11,11 +10,11 @@ import {
 } from '@/services/helperFunctions';
 import { order } from '@/lib/order';
 import Loading from '@/components/Loading';
+import AlertSnackbar from '@/components/AlertSnackbar';
 
 const Scanner = () => {
   const router = useRouter();
   const [team, setTeam] = useState(null);
-  const [open, setOpen] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -33,8 +32,7 @@ const Scanner = () => {
 
       router.push(order[result]);
     } catch (error) {
-      setError(error);
-      setOpen(true);
+      setError(error.message);
     }
   };
 
@@ -62,15 +60,7 @@ const Scanner = () => {
           />
         </div>
 
-        <Snackbar
-          open={open}
-          autoHideDuration={5000}
-          onClose={() => setOpen(false)}
-        >
-          <Alert severity='error' variant='filled' sx={{ width: '100%' }}>
-            {error.message}
-          </Alert>
-        </Snackbar>
+        <AlertSnackbar error={error} setError={setError} />
       </div>
     );
   }

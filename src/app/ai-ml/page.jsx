@@ -1,28 +1,55 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 
 import { AI_ML } from '@/lib/questions';
 import Container from '@/components/Container';
-import sentenceSimilarity from '@/lib/similarity';
+import { submitAIMLAnswer } from '@/lib/submitAnswer';
+import AlertSnackbar from '@/components/AlertSnackbar';
 import { updateProgress } from '@/services/helperFunctions';
 
 const AIMLPage = () => {
+  const [error, setError] = useState('');
   const [stage, setStage] = useState(0);
-  const [userInput, setUserInput] = useState('');
-  const [similarityScore, setSimilarityScore] = useState(null);
+  const [answer, setAnswer] = useState('');
+  const [similarityScore, setSimilarityScore] = useState(0);
 
-  const checkSimilarity = async () => {
-    const score = sentenceSimilarity(userInput, AI_ML.answer) * 100;
+  useEffect(() => {
+    const checkSimilarity = async () => {
+      const result = await submitAIMLAnswer(answer);
 
-    setSimilarityScore(score);
+      if (result.score) setSimilarityScore(result.score);
+    };
 
-    if (score > 75) {
+    answer.trim() && checkSimilarity();
+  }, [answer]);
+
+  const handleSubmit = async () => {
+    setError('');
+
+    console.log(answer.trim().split(' ').length);
+
+    if (!answer.trim()) {
+      setError('Enter an answer');
+      return;
+    }
+
+    if (answer.trim().split(' ').length > 25) {
+      setError('Answer should be max 25 words');
+      return;
+    }
+
+    const result = await submitAIMLAnswer(answer);
+
+    if (result.score) setSimilarityScore(result.score);
+
+    if (result.correct) {
       setStage(2);
-
       await updateProgress('/ai-ml');
     }
+
+    if (result.error) setError(result.error);
   };
 
   return (
@@ -34,25 +61,30 @@ const AIMLPage = () => {
       className='max-w-lg'
     >
       <TextField
+        multiline
         type='text'
-        value={userInput}
+        value={answer}
         className='w-full'
         label='Enter your answer'
-        onChange={(e) => setUserInput(e.target.value)}
-        multiline
+        onChange={(e) => setAnswer(e.target.value)}
       />
 
-      <Button className='w-full' variant='contained' onClick={checkSimilarity}>
+      <Button
+        size='large'
+        className='w-full'
+        variant='contained'
+        onClick={handleSubmit}
+      >
         Submit
       </Button>
 
-      {similarityScore !== null && (
-        <h2 className='text-center text-base md:text-lg'>
-          Cosine Similarity Score: {similarityScore.toFixed(2)}%
-          <br />
-          You need more than 75% to pass.
-        </h2>
-      )}
+      <h2 className='text-center text-base md:text-lg font-semibold'>
+        Cosine Similarity Score: {similarityScore.toFixed(2)}%
+        <br />
+        Max 25 words. You need more than 70% to pass.
+      </h2>
+
+      <AlertSnackbar error={error} setError={setError} />
     </Container>
   );
 };

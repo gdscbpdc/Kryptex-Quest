@@ -5,8 +5,11 @@ import { useState } from 'react';
 
 const QRGamePage = () => {
   const imageDataChunks = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-  const [chunkStates, setChunkStates] = useState(imageDataChunks);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [chunkStates, setChunkStates] = useState(imageDataChunks);
+  // const [chunkStates, setChunkStates] = useState(
+  //   imageDataChunks.sort(() => Math.random() - 0.5)
+  // );
 
   const swapChunks = (source, dest) => {
     let newChunkStates = [...chunkStates];
@@ -31,10 +34,14 @@ const QRGamePage = () => {
   return (
     <div className='container w-full h-full flex flex-col items-center justify-center px-5 md:px-0 space-y-5 md:space-y-10'>
       <h1 className='text-2xl md:text-4xl font-bold text-center text-balance'>
-        Rearrange the chunks to form the QR code
+        Rearrange the chunks to form the final QR code
       </h1>
 
-      <div className='inline-grid grid-cols-3 gap-0'>
+      <p className='text-lg md:text-xl font-bold text-center text-balance'>
+        Use the website scanner to scan the final QR code
+      </p>
+
+      <div className='inline-grid grid-cols-3 gap-0 p-5 bg-white'>
         {chunkStates.map((imgId, index) => (
           <div
             key={index}
@@ -43,9 +50,11 @@ const QRGamePage = () => {
           >
             <Image
               draggable={false}
-              src={`/assets/qr-game/chunk-${imgId}.jpg`}
+              src={`/assets/qr-game/chunk-${imgId}.png`}
               alt={`Chunk ${imgId}`}
               width={200}
+              priority
+              loading='eager'
               height={200}
               className={
                 selectedIndex === index

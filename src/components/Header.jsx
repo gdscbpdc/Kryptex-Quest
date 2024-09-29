@@ -19,26 +19,31 @@ const Header = () => {
 
         {isLoggedIn() ? (
           pathname === '/' ? (
-            <Button variant='contained' color='primary' onClick={logout}>
+            <Button
+              size='large'
+              variant='outlined'
+              color='primary'
+              onClick={logout}
+            >
               Logout
             </Button>
           ) : (
             <Link href='/'>
-              <Button variant='contained' color='primary'>
+              <Button size='large' variant='outlined' color='primary'>
                 Dashboard
               </Button>
             </Link>
           )
         ) : pathname === '/login' ? (
           <Link href='/register'>
-            <Button variant='contained' color='primary'>
+            <Button size='large' variant='outlined' color='primary'>
               Register
             </Button>
           </Link>
         ) : (
           pathname === '/register' && (
             <Link href='/login'>
-              <Button variant='contained' color='primary'>
+              <Button size='large' variant='outlined' color='primary'>
                 Login
               </Button>
             </Link>

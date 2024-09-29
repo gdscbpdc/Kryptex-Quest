@@ -1,6 +1,6 @@
 export const messages = {
   '/bio-infomatics': {
-    before: `This story begins where mine ended.\nLast where I was seen, very suspicious has it been.\nTo discover my secrets you must understand, the Kronos virus was not mylast stand.`,
+    before: `This story begins where mine ended.\nLast where I was seen, very suspicious has it been.\nTo discover my secrets you must understand, the Kronos virus was not my last stand.`,
     after: `Decode:\nGUUGAAAAUGAUAUUAAUGGU AUGGCUUGUCAUAUUAAUGAA`,
   },
   '/cybersecurity': {
@@ -19,4 +19,5 @@ export const messages = {
     before: `A little bit of prompt should not be a scare, let this be my final dare.\nTo unlock my secret you must trust, in a magic so old, it turns your bones to dust.`,
     after: `A sacrifice that I had to pay, so that this college did not get erased today.\nA medic is what I hoped I'd find, but sadly it ended in my demise.`,
   },
+  final: `The reality is... I may not be the only one after this.\nThe time has come for you to learn the truth about my nature.\nAnd of my intentions.\nBeware, BPDC, for a greater evil haunts these grounds.\nI will be in touch... until he reveals himself in this town.`,
 };

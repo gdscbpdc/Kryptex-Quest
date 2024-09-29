@@ -1,18 +1,18 @@
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, CircularProgress } from '@mui/material';
 
-const TeamName = ({
+const TeamDetails = ({
   teamName,
   setTeamName,
   teamLeaderEmail,
   setTeamLeaderEmail,
   teamLeaderPassword,
   setTeamLeaderPassword,
-  handleNextStep,
+  handleSubmit,
+  buttonLoading,
 }) => {
   return (
-    <form onSubmit={handleNextStep} className='space-y-2 md:space-y-5'>
+    <form onSubmit={handleSubmit} className='space-y-5'>
       <TextField
-        required
         fullWidth
         value={teamName}
         label='Team Name'
@@ -21,7 +21,6 @@ const TeamName = ({
       />
 
       <TextField
-        required
         fullWidth
         type='email'
         variant='outlined'
@@ -31,7 +30,6 @@ const TeamName = ({
       />
 
       <TextField
-        required
         fullWidth
         type='password'
         label='Password'
@@ -42,15 +40,16 @@ const TeamName = ({
 
       <Button
         fullWidth
+        size='large'
         type='submit'
         color='primary'
         variant='contained'
         disabled={!teamName || !teamLeaderEmail || !teamLeaderPassword}
       >
-        Continue
+        {buttonLoading ? <CircularProgress size={26} /> : 'Continue'}
       </Button>
     </form>
   );
 };
 
-export default TeamName;
+export default TeamDetails;
