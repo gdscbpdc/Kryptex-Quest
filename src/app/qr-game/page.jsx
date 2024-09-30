@@ -50,9 +50,7 @@ const QRGamePage = () => {
         return;
       }
 
-      if (team.completedSteps?.includes(pathname)) {
-        setLoading(false);
-      }
+      setLoading(false);
     });
   }, []);
 
