@@ -22,6 +22,11 @@ const Scanner = () => {
     getAndUpdateTeam().then((team) => {
       setTeam(team);
 
+      if (!team) {
+        router.replace('/');
+        return;
+      }
+
       setLoading(false);
     });
   }, []);
