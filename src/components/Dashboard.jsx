@@ -13,8 +13,6 @@ const Dashboard = ({ team }) => {
   const startTime = getStartTime();
   const [elapsedTime, setElapsedTime] = useState(0);
 
-  console.log(team);
-
   if (startTime) {
     useEffect(() => {
       const interval = setInterval(() => {
