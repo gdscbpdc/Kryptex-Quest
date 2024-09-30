@@ -8,6 +8,7 @@ import './globals.css';
 import theme from '@/lib/theme';
 import Header from '@/components/Header';
 import { AuthProvider } from '@/components/AuthProvider';
+import TypeWriting from '@/components/TypeWriting';
 
 const open_sans = Open_Sans({
   subsets: ['latin'],
@@ -64,10 +65,17 @@ export default function RootLayout({ children }) {
                 draggable={false}
               />
 
-              <Header />
+              {/* <Header /> */}
 
               <main className='w-dvw h-full grid place-items-center mt-[80px] md:mt-0'>
-                {children}
+                {/* {children} */}
+
+                <TypeWriting
+                  text={[
+                    'Event Completed',
+                    'Thank you for attending Kryptex Quest',
+                  ]}
+                />
               </main>
             </AuthProvider>
           </ThemeProvider>
