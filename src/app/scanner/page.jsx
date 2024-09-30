@@ -50,7 +50,7 @@ const Scanner = () => {
           Scan QR Code to Proceed to Next Stage of the Game
         </h1>
 
-        <div className='w-full md:w-auto h-auto md:h-[50svh]'>
+        <div className='w-full md:w-auto h-auto md:h-[50dvh]'>
           <QRScanner
             styles={{
               container: {

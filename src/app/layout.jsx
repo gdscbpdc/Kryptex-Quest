@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en' suppressHydrationWarning>
       <body
-        className={`${open_sans.variable} antialiased min-h-svh flex flex-col items-center justify-center`}
+        className={`${open_sans.variable} antialiased min-h-dvh flex flex-col items-center justify-center`}
       >
         <AppRouterCacheProvider options={{ key: 'css' }}>
           <ThemeProvider theme={theme}>
@@ -60,13 +60,13 @@ export default function RootLayout({ children }) {
                 height={484}
                 priority
                 loading='eager'
-                className='absolute opacity-40 h-auto md:h-[60svh] w-[90svw] md:w-auto -z-10 blur-md'
+                className='absolute opacity-40 h-auto md:h-[60dvh] w-[90dvw] md:w-auto -z-10 blur-md'
                 draggable={false}
               />
 
               <Header />
 
-              <main className='w-svw h-full grid place-items-center mt-[80px] md:mt-0'>
+              <main className='w-dvw h-full grid place-items-center mt-[80px] md:mt-0'>
                 {children}
               </main>
             </AuthProvider>
