@@ -49,7 +49,7 @@ const TeamMembers = ({
         variant='contained'
         fullWidth
         disabled={
-          teamMembers.length < 2 ||
+          teamMembers.length < 1 ||
           teamMembers.map((m) => m.name === '').includes(true)
         }
       >
